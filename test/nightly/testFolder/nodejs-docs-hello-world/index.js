@@ -1,9 +1,9 @@
-const http = require('http');
+const http = require("http");
 
 const server = http.createServer((request, response) => {
-    response.writeHead(200, { "Content-Type": "text/plain" });
-    const majorVersion = process.version.match(/v(.*?)\./)[1];
-    response.end(`Version: ${majorVersion}`);
+	response.writeHead(200, { "Content-Type": "text/plain" });
+	const majorVersion = process.version.match(/v(.*?)\./)[1];
+	response.end(`Version: ${majorVersion}`);
 });
 
 const port = process.env.PORT || 1337;

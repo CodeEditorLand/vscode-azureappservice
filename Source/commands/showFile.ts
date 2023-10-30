@@ -9,16 +9,22 @@ import { FileSystemItem } from "../AppServiceFileSystem";
 import { ext } from "../extensionVariables";
 import { localize } from "../localize";
 
-export async function showFile(context: IActionContext, treeItem?: FileTreeItem): Promise<void> {
-    const node = nonNullValue(treeItem);
-    context.telemetry.eventVersion = 2;
+export async function showFile(
+	context: IActionContext,
+	treeItem?: FileTreeItem
+): Promise<void> {
+	const node = nonNullValue(treeItem);
+	context.telemetry.eventVersion = 2;
 
-    ext.fileSystem.appendLineToOutput(localize('opening', 'Opening "{0}"...', node.label), { resourceName: node.site.fullName });
-    if (node.isReadOnly) {
-        await node.openReadOnly(context);
-    } else {
-        // ensure node.id is defined
-        node.id = node.fullId;
-        await ext.fileSystem.showTextDocument(node as FileSystemItem);
-    }
+	ext.fileSystem.appendLineToOutput(
+		localize("opening", 'Opening "{0}"...', node.label),
+		{ resourceName: node.site.fullName }
+	);
+	if (node.isReadOnly) {
+		await node.openReadOnly(context);
+	} else {
+		// ensure node.id is defined
+		node.id = node.fullId;
+		await ext.fileSystem.showTextDocument(node as FileSystemItem);
+	}
 }

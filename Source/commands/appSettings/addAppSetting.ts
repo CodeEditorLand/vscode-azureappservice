@@ -8,13 +8,18 @@ import { IActionContext } from "@microsoft/vscode-azext-utils";
 import { webAppFilter } from "../../constants";
 import { ext } from "../../extensionVariables";
 
-export async function addAppSetting(context: IActionContext, node?: AppSettingsTreeItem): Promise<void> {
-    if (!node) {
-        node = await ext.rgApi.pickAppResource<AppSettingsTreeItem>(context, {
-            filter: webAppFilter,
-            expectedChildContextValue: new RegExp(AppSettingsTreeItem.contextValue)
-        });
-    }
+export async function addAppSetting(
+	context: IActionContext,
+	node?: AppSettingsTreeItem
+): Promise<void> {
+	if (!node) {
+		node = await ext.rgApi.pickAppResource<AppSettingsTreeItem>(context, {
+			filter: webAppFilter,
+			expectedChildContextValue: new RegExp(
+				AppSettingsTreeItem.contextValue
+			),
+		});
+	}
 
-    await node.createChild(context);
+	await node.createChild(context);
 }

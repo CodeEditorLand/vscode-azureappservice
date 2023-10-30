@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 export interface AzureAppServiceExtensionApi {
-    apiVersion: string;
+	apiVersion: string;
 
-    revealTreeItem(resourceId: string): Promise<void>;
+	revealTreeItem(resourceId: string): Promise<void>;
 }
