@@ -3,52 +3,41 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import {
-	type TaskDefinition,
-	type WorkspaceConfiguration,
-	type WorkspaceFolder,
-	workspace,
-} from "vscode";
+import { workspace, type TaskDefinition, type WorkspaceConfiguration, type WorkspaceFolder } from "vscode";
 
-const tasksKey: string = "tasks";
-const versionKey: string = "version";
-export const tasksVersion: string = "2.0.0";
+const tasksKey: string = 'tasks';
+const versionKey: string = 'version';
+export const tasksVersion: string = '2.0.0';
 
 export function getTasks(folder: WorkspaceFolder): ITask[] {
-	return getTasksConfig(folder).get<ITask[]>(tasksKey) || [];
+    return getTasksConfig(folder).get<ITask[]>(tasksKey) || [];
 }
 
-export async function updateTasks(
-	folder: WorkspaceFolder,
-	tasks: ITask[],
-): Promise<void> {
-	await getTasksConfig(folder).update(tasksKey, tasks);
+export async function updateTasks(folder: WorkspaceFolder, tasks: ITask[]): Promise<void> {
+    await getTasksConfig(folder).update(tasksKey, tasks);
 }
 
 export function getTasksVersion(folder: WorkspaceFolder): string | undefined {
-	return getTasksConfig(folder).get<string>(versionKey);
+    return getTasksConfig(folder).get<string>(versionKey);
 }
 
-export async function updateTasksVersion(
-	folder: WorkspaceFolder,
-	version: string,
-): Promise<void> {
-	await getTasksConfig(folder).update(versionKey, version);
+export async function updateTasksVersion(folder: WorkspaceFolder, version: string): Promise<void> {
+    await getTasksConfig(folder).update(versionKey, version);
 }
 
 function getTasksConfig(folder: WorkspaceFolder): WorkspaceConfiguration {
-	return workspace.getConfiguration(tasksKey, folder.uri);
+    return workspace.getConfiguration(tasksKey, folder.uri);
 }
 
 export interface ITask extends TaskDefinition {
-	label?: string;
-	command?: string;
-	options?: ITaskOptions;
+    label?: string;
+    command?: string;
+    options?: ITaskOptions;
 }
 
 export interface ITaskOptions {
-	cwd?: string;
-	env?: {
-		[key: string]: string;
-	};
+    cwd?: string;
+    env?: {
+        [key: string]: string;
+    };
 }

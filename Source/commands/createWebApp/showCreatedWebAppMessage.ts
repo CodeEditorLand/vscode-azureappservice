@@ -3,60 +3,35 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import type { ParsedSite } from "@microsoft/vscode-azext-azureappservice";
-import {
-	type IActionContext,
-	callWithTelemetryAndErrorHandling,
-} from "@microsoft/vscode-azext-utils";
-import { type MessageItem, window } from "vscode";
+import { type ParsedSite } from "@microsoft/vscode-azext-azureappservice";
+import { callWithTelemetryAndErrorHandling, type IActionContext } from "@microsoft/vscode-azext-utils";
+import { window, type MessageItem } from "vscode";
 import { AppServiceDialogResponses } from "../../constants";
 import { ext } from "../../extensionVariables";
 import { localize } from "../../localize";
-import type { SiteTreeItem } from "../../tree/SiteTreeItem";
-import { deploy } from "../deploy/deploy";
+import { type SiteTreeItem } from "../../tree/SiteTreeItem";
+import { deploy } from '../deploy/deploy';
 
-export function showCreatedWebAppMessage(
-	originalContext: IActionContext,
-	node: SiteTreeItem,
-): void {
-	const message: string = getCreatedWebAppMessage(node.site);
+export function showCreatedWebAppMessage(originalContext: IActionContext, node: SiteTreeItem): void {
+    const message: string = getCreatedWebAppMessage(node.site);
 
-	// don't wait
-	void window
-		.showInformationMessage(
-			message,
-			AppServiceDialogResponses.deploy,
-			AppServiceDialogResponses.viewOutput,
-		)
-		.then(async (result: MessageItem | undefined) => {
-			await callWithTelemetryAndErrorHandling(
-				"postCreateWebApp",
-				async (context: IActionContext) => {
-					context.valuesToMask.push(...originalContext.valuesToMask);
-					context.telemetry.properties.dialogResult = result?.title;
+    // don't wait
+    void window.showInformationMessage(message, AppServiceDialogResponses.deploy, AppServiceDialogResponses.viewOutput).then(async (result: MessageItem | undefined) => {
+        await callWithTelemetryAndErrorHandling('postCreateWebApp', async (context: IActionContext) => {
+            context.valuesToMask.push(...originalContext.valuesToMask);
+            context.telemetry.properties.dialogResult = result?.title;
 
-					if (result === AppServiceDialogResponses.viewOutput) {
-						ext.outputChannel.show();
-					} else if (result === AppServiceDialogResponses.deploy) {
-						await deploy(context, node, [], true);
-					}
-				},
-			);
-		});
+            if (result === AppServiceDialogResponses.viewOutput) {
+                ext.outputChannel.show();
+            } else if (result === AppServiceDialogResponses.deploy) {
+                await deploy(context, node, [], true);
+            }
+        });
+    });
 }
 
 export function getCreatedWebAppMessage(site: ParsedSite): string {
-	return site.isSlot
-		? localize(
-				"createdSlot",
-				'Created new slot "{0}": {1}',
-				site.slotName,
-				site.defaultHostUrl,
-			)
-		: localize(
-				"createdWebApp",
-				'Created new web app "{0}": {1}',
-				site.fullName,
-				site.defaultHostUrl,
-			);
+    return site.isSlot ?
+        localize('createdSlot', 'Created new slot "{0}": {1}', site.slotName, site.defaultHostUrl) :
+        localize('createdWebApp', 'Created new web app "{0}": {1}', site.fullName, site.defaultHostUrl);
 }

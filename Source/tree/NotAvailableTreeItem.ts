@@ -6,7 +6,7 @@
 import { AzExtParentTreeItem } from "@microsoft/vscode-azext-utils";
 
 export abstract class NotAvailableTreeItem extends AzExtParentTreeItem {
-	public constructor(parent: AzExtParentTreeItem) {
-		super(parent);
-	}
+    public constructor(parent: AzExtParentTreeItem) {
+        super(parent);
+    }
 }

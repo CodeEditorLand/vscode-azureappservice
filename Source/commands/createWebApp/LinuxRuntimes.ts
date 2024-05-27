@@ -4,12 +4,12 @@
  *--------------------------------------------------------------------------------------------*/
 
 export enum LinuxRuntimes {
-	node = "node",
-	python = "python",
-	java = "java",
-	tomcat = "tomcat",
-	wildfly = "wildfly",
-	dotnet = "dotnet",
-	ruby = "ruby",
-	php = "php",
+    node = 'node',
+    python = 'python',
+    java = 'java',
+    tomcat = 'tomcat',
+    wildfly = 'wildfly',
+    dotnet = 'dotnet',
+    ruby = 'ruby',
+    php = 'php'
 }
