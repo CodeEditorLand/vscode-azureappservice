@@ -629,7 +629,7 @@
 	},
 	"dependencies": {
 		"dotenv": "6.2.0",
-		"fast-xml-parser": "4.2.5",
+		"fast-xml-parser": "4.4.1",
 		"fs-extra": "8.0.0",
 		"open": "8.0.4"
 	},
