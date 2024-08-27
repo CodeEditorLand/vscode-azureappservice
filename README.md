@@ -20,7 +20,7 @@ the extension.**
 > popular services, $200 free credit and 25+ always free services 👉
 > [Start Free](https://azure.microsoft.com/free/open-source).
 
-## Installation
+## 🚀 Installation
 
 1. Download and install the
    [Azure App Service extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azureappservice)
