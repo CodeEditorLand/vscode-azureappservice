@@ -4,10 +4,14 @@
  *--------------------------------------------------------------------------------------------*/
 
 import { type IActionContext } from "@microsoft/vscode-azext-utils";
+
 import { type SiteTreeItem } from "../tree/SiteTreeItem";
 import { pickWebApp } from "../utils/pickWebApp";
 
-export async function deleteWebApp(context: IActionContext, node?: SiteTreeItem): Promise<void> {
-    node ??= await pickWebApp({ ...context, suppressCreatePick: true });
-    await node.deleteTreeItem(context);
+export async function deleteWebApp(
+	context: IActionContext,
+	node?: SiteTreeItem,
+): Promise<void> {
+	node ??= await pickWebApp({ ...context, suppressCreatePick: true });
+	await node.deleteTreeItem(context);
 }
