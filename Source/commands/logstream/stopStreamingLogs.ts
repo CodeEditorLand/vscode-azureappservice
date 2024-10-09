@@ -3,15 +3,19 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import * as appservice from '@microsoft/vscode-azext-azureappservice';
-import { type IActionContext } from '@microsoft/vscode-azext-utils';
-import { type SiteTreeItem } from '../../tree/SiteTreeItem';
-import { pickWebApp } from '../../utils/pickWebApp';
+import * as appservice from "@microsoft/vscode-azext-azureappservice";
+import { type IActionContext } from "@microsoft/vscode-azext-utils";
 
-export async function stopStreamingLogs(context: IActionContext, node?: SiteTreeItem): Promise<void> {
-    if (!node) {
-        node = await pickWebApp({ ...context, suppressCreatePick: true });
-    }
+import { type SiteTreeItem } from "../../tree/SiteTreeItem";
+import { pickWebApp } from "../../utils/pickWebApp";
 
-    await appservice.stopStreamingLogs(node.site);
+export async function stopStreamingLogs(
+	context: IActionContext,
+	node?: SiteTreeItem,
+): Promise<void> {
+	if (!node) {
+		node = await pickWebApp({ ...context, suppressCreatePick: true });
+	}
+
+	await appservice.stopStreamingLogs(node.site);
 }
