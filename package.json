@@ -712,7 +712,7 @@
 	"devDependencies": {
 		"@types/dotenv": "8.2.3",
 		"@types/fs-extra": "11.0.4",
-		"@types/node": "22.8.6",
+		"@types/node": "22.9.0",
 		"glob": "11.0.0"
 	},
 	"displayName": "Azure App Service",
