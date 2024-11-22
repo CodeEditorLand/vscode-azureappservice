@@ -42,6 +42,7 @@ export async function createSlot(
 	const client = await node.parent.site.createClient(context);
 	// set the deploy source as the same as its production slot
 	const siteConfig: SiteConfigResource = await client.getSiteConfig();
+
 	if (siteConfig.scmType !== ScmType.None) {
 		switch (siteConfig.scmType) {
 			case ScmType.LocalGit:
@@ -52,7 +53,9 @@ export async function createSlot(
 					ScmType.LocalGit,
 					false,
 				);
+
 				break;
+
 			case ScmType.GitHub:
 				await editScmType(
 					context,
@@ -61,7 +64,9 @@ export async function createSlot(
 					ScmType.GitHub,
 					false,
 				);
+
 				break;
+
 			default:
 				break;
 		}

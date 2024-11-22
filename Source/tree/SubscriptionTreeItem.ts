@@ -46,6 +46,7 @@ export class SubscriptionTreeItem extends SubscriptionTreeItemBase {
 		);
 
 		let webAppCollection: Site[];
+
 		try {
 			// Load more currently broken https://github.com/Azure/azure-sdk-for-js/issues/20380
 			webAppCollection = await uiUtils.listAllIterator(
@@ -67,6 +68,7 @@ export class SubscriptionTreeItem extends SubscriptionTreeItemBase {
 			"invalidAppService",
 			(s) => {
 				const site = new ParsedSite(s, this.subscription);
+
 				return site.isFunctionApp
 					? undefined
 					: new SiteTreeItem(this, site);

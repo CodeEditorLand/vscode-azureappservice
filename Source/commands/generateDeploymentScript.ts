@@ -33,7 +33,9 @@ export async function generateDeploymentScript(
 
 			const resourceClient: ResourceManagementClient =
 				await createResourceClient([context, node.subscription]);
+
 			const client = await node.site.createClient(context);
+
 			const tasks = Promise.all([
 				resourceClient.resourceGroups.get(node.site.resourceGroup),
 				client.getAppServicePlan(),
@@ -42,9 +44,13 @@ export async function generateDeploymentScript(
 			]);
 
 			const taskResults = await tasks;
+
 			const rg = nonNullValue(taskResults[0]);
+
 			const plan = taskResults[1];
+
 			const siteConfig = nonNullValue(taskResults[2]);
+
 			const appSettings = nonNullValue(taskResults[3]);
 
 			let script: string;
@@ -58,9 +64,13 @@ export async function generateDeploymentScript(
 			) {
 				const scriptTemplate =
 					await loadScriptTemplate("docker-image.sh");
+
 				let serverUrl: string | undefined;
+
 				let serverUser: string | undefined;
+
 				let serverPwd: string | undefined;
+
 				if (appSettings.properties) {
 					serverUrl =
 						appSettings.properties.DOCKER_REGISTRY_SERVER_URL;
@@ -73,6 +83,7 @@ export async function generateDeploymentScript(
 					(serverUrl ? `SERVERURL="${serverUrl}"\n` : "") +
 					(serverUser ? `SERVERUSER="${serverUser}"\n` : "") +
 					(serverPwd ? `SERVERPASSWORD="*****"\n` : "");
+
 				const containerCmdParameters =
 					(serverUrl
 						? "--docker-registry-server-url $SERVERURL "
@@ -131,5 +142,6 @@ async function loadScriptTemplate(scriptName: string): Promise<string> {
 		"deploymentScripts",
 		scriptName,
 	);
+
 	return await fse.readFile(templatePath, "utf8");
 }

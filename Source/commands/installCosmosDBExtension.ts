@@ -17,10 +17,13 @@ export async function installCosmosDBExtension(
 	node?: AzExtTreeItem,
 ): Promise<void> {
 	const treeItem = nonNullValue(node);
+
 	const extensionId: string = "ms-azuretools.vscode-cosmosdb";
+
 	if (await installExtension(extensionId)) {
 		if (treeItem.parent) {
 			await treeItem.parent.refresh(context);
+
 			if ((<CosmosDBTreeItem>treeItem.parent).cosmosDBExtension) {
 				context.telemetry.properties.installedCosmos = "true";
 			}

@@ -13,6 +13,7 @@ export function isSubpath(
 	expectedChild: string,
 ): boolean {
 	const relativePath: string = path.relative(expectedParent, expectedChild);
+
 	return (
 		relativePath !== "" &&
 		!relativePath.startsWith("..") &&
@@ -22,6 +23,7 @@ export function isSubpath(
 
 export function isPathEqual(fsPath1: string, fsPath2: string): boolean {
 	const relativePath: string = path.relative(fsPath1, fsPath2);
+
 	return relativePath === "";
 }
 

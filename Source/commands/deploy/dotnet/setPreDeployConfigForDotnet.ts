@@ -14,6 +14,7 @@ import { updateWorkspaceSetting } from "../../../vsCodeConfig/settings";
 import * as tasks from "../../../vsCodeConfig/tasks";
 
 const cleanId: string = "clean";
+
 const publishId: string = "publish-release";
 
 export async function setPreDeployConfigForDotnet(
@@ -38,6 +39,7 @@ export async function setPreDeployConfigForDotnet(
 		'Required configuration to deploy is missing from "{0}".',
 		context.workspaceFolder.name,
 	);
+
 	const addConfigButton: MessageItem = {
 		title: localize("addConfig", "Add Config"),
 	};
@@ -78,6 +80,7 @@ export async function setPreDeployConfigForDotnet(
 	const existingTasks: tasks.ITask[] = tasks.getTasks(
 		context.workspaceFolder,
 	);
+
 	const publishTask: tasks.ITask | undefined = existingTasks.find((t1) => {
 		return t1.label === publishId;
 	});
@@ -100,6 +103,7 @@ export async function setPreDeployConfigForDotnet(
 	const currentVersion: string | undefined = tasks.getTasksVersion(
 		context.workspaceFolder,
 	);
+
 	if (!currentVersion) {
 		await tasks.updateTasksVersion(
 			context.workspaceFolder,
@@ -117,9 +121,11 @@ async function tryGetTargetFramework(
 	projFilePath: string,
 ): Promise<string | undefined> {
 	const projContents: string = (await fse.readFile(projFilePath)).toString();
+
 	const matches: RegExpMatchArray | null = projContents.match(
 		/<TargetFramework>(.*)<\/TargetFramework>/,
 	);
+
 	return matches === null ? undefined : matches[1];
 }
 

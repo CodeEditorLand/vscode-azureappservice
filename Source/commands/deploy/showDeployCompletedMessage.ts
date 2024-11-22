@@ -26,15 +26,19 @@ export function showDeployCompletedMessage(
 		node.site.fullName,
 	);
 	ext.outputChannel.appendLog(message);
+
 	const browseWebsiteBtn: MessageItem = {
 		title: localize("browseWebsite", "Browse Website"),
 	};
+
 	const streamLogs: MessageItem = {
 		title: localize("streamLogs", "Stream Logs"),
 	};
+
 	const uploadSettingsBtn: MessageItem = {
 		title: localize("uploadMessage", "Upload Settings"),
 	};
+
 	const buttons: MessageItem[] = [
 		browseWebsiteBtn,
 		streamLogs,

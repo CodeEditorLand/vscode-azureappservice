@@ -96,9 +96,12 @@ export class CosmosDBTreeItem extends AzExtParentTreeItem {
 		}
 
 		const cosmosDBApi = await this.getCosmosDBApi();
+
 		const client = await this.parent.site.createClient(context);
+
 		const appSettings =
 			(await client.listApplicationSettings()).properties || {};
+
 		const connections: IDetectedConnection[] = this.detectMongoConnections(
 			appSettings,
 		)
@@ -113,6 +116,7 @@ export class CosmosDBTreeItem extends AzExtParentTreeItem {
 					connectionString: c.connectionString,
 					postgresData: c.postgresData,
 				});
+
 				return databaseTreeItem
 					? new CosmosDBConnection(this, databaseTreeItem, c.keys)
 					: undefined;
@@ -140,18 +144,22 @@ export class CosmosDBTreeItem extends AzExtParentTreeItem {
 		context: ICreateChildImplContext,
 	): Promise<AzExtTreeItem> {
 		const cosmosDBApi = await this.getCosmosDBApi();
+
 		const databaseToAdd = await cosmosDBApi.pickTreeItem({
 			resourceType: "Database",
 		});
+
 		if (!databaseToAdd) {
 			throw new UserCancelledError("cosmosDBpickTreeItem");
 		}
 
 		const client = await this.parent.site.createClient(context);
+
 		const appSettingsDict = await client.listApplicationSettings();
 		appSettingsDict.properties = appSettingsDict.properties || {};
 
 		let newAppSettings: Map<string, string>;
+
 		if (databaseToAdd.docDBData) {
 			const docdbAppSettings = new Map([
 				[
@@ -164,6 +172,7 @@ export class CosmosDBTreeItem extends AzExtParentTreeItem {
 				],
 				[this._databaseSuffix, databaseToAdd.databaseName],
 			]);
+
 			const docdbSuffixes = [
 				this._endpointSuffix,
 				this._keySuffix,
@@ -187,6 +196,7 @@ export class CosmosDBTreeItem extends AzExtParentTreeItem {
 				[this._pgPassSuffix, databaseToAdd.postgresData?.password],
 				[this._pgPortSuffix, databaseToAdd.port],
 			]);
+
 			const postgresSuffixes = [
 				this._pgHostSuffix,
 				this._pgDbNameSuffix,
@@ -232,12 +242,14 @@ export class CosmosDBTreeItem extends AzExtParentTreeItem {
 		const revealDatabase: vscode.MessageItem = {
 			title: localize("reveal", "Reveal Database"),
 		};
+
 		const manageFirewallRules: vscode.MessageItem = {
 			title: localize(
 				"manageFirewallRulesMsgItem",
 				"Manage Firewall Rules",
 			),
 		};
+
 		const message: string = localize(
 			"connectedDatabase",
 			'Database "{0}" connected to web app "{1}". Created the following application settings: {2}',
@@ -247,6 +259,7 @@ export class CosmosDBTreeItem extends AzExtParentTreeItem {
 		);
 		// Don't wait
 		const buttons: vscode.MessageItem[] = [revealDatabase];
+
 		if (
 			createdDatabase.cosmosExtensionItem.azureData &&
 			createdDatabase.cosmosExtensionItem.postgresData
@@ -265,6 +278,7 @@ export class CosmosDBTreeItem extends AzExtParentTreeItem {
 					await openInPortal(this, `${accountId}/connectionSecurity`);
 				}
 			});
+
 		return createdDatabase;
 	}
 
@@ -286,6 +300,7 @@ export class CosmosDBTreeItem extends AzExtParentTreeItem {
 					this.cosmosDBExtension.exports.getApi<AzureDatabasesExtensionApi>(
 						"^1.0.0",
 					);
+
 				return this._cosmosDBApi;
 			}
 		}
@@ -302,8 +317,10 @@ export class CosmosDBTreeItem extends AzExtParentTreeItem {
 		[propertyName: string]: string;
 	}): IDetectedConnection[] {
 		const result: IDetectedConnection[] = [];
+
 		for (const key of Object.keys(appSettings)) {
 			const value = appSettings[key];
+
 			if (/^mongodb[^:]*:\/\//i.test(value)) {
 				result.push({
 					keys: [key],
@@ -318,21 +335,30 @@ export class CosmosDBTreeItem extends AzExtParentTreeItem {
 		[propertyName: string]: string;
 	}): IDetectedConnection[] {
 		const portDefault = "5432";
+
 		const result: IDetectedConnection[] = [];
+
 		const regexp = new RegExp(`(.+)${this._pgHostSuffix}`, "i");
 
 		for (const key of Object.keys(appSettings)) {
 			const match = key && key.match(regexp);
+
 			if (match) {
 				const prefix = match[1];
+
 				const hostKey = prefix + this._pgHostSuffix;
+
 				const dbNameKey = prefix + this._pgDbNameSuffix;
+
 				const userKey = prefix + this._pgUserSuffix;
+
 				const passKey = prefix + this._pgPassSuffix;
+
 				const portKey = prefix + this._pgPortSuffix;
 
 				if (appSettings[hostKey]) {
 					const keys: string[] = [hostKey, portKey];
+
 					for (const optionalKey of [userKey, passKey, dbNameKey]) {
 						if (appSettings[optionalKey]) {
 							keys.push(optionalKey);
@@ -360,26 +386,36 @@ export class CosmosDBTreeItem extends AzExtParentTreeItem {
 		[propertyName: string]: string;
 	}): IDetectedConnection[] {
 		const connectionStringEndpointPrefix = "AccountEndpoint=";
+
 		const connectionStringKeyPrefix = "AccountKey=";
 
 		const result: IDetectedConnection[] = [];
+
 		const regexp = new RegExp(`(.+)${this._endpointSuffix}`, "i");
+
 		for (const key of Object.keys(appSettings)) {
 			// First, check for connection string split up into multiple app settings (endpoint, key, and optional database id)
 			const match = key && key.match(regexp);
+
 			if (match) {
 				const prefix = match[1];
+
 				const endpointKey = prefix + this._endpointSuffix;
+
 				const keyKey = prefix + this._keySuffix;
+
 				const documentEndpoint: string | undefined =
 					appSettings[endpointKey];
+
 				const masterKey: string | undefined = appSettings[keyKey];
 
 				if (documentEndpoint && masterKey) {
 					const keys: string[] = [endpointKey, keyKey];
+
 					let connectionString = `${connectionStringEndpointPrefix}${documentEndpoint};${connectionStringKeyPrefix}${masterKey};`;
 
 					const databaseKey = prefix + this._databaseSuffix;
+
 					if (
 						Object.keys(appSettings).find((k) => k === databaseKey)
 					) {
@@ -392,9 +428,11 @@ export class CosmosDBTreeItem extends AzExtParentTreeItem {
 			} else {
 				// Second, check for connection string as one app setting
 				const regExp1 = new RegExp(connectionStringEndpointPrefix, "i");
+
 				const regExp2 = new RegExp(connectionStringKeyPrefix, "i");
 
 				const value: string = appSettings[key];
+
 				if (regExp1.test(value) && regExp2.test(value)) {
 					result.push({ keys: [key], connectionString: value });
 				}
@@ -414,13 +452,16 @@ export class CosmosDBTreeItem extends AzExtParentTreeItem {
 		const prompt: string = suffixes
 			? localize("enterPrefix", "Enter new connection setting prefix")
 			: localize("enterKey", "Enter new connection setting key");
+
 		const errorMsg: string = suffixes
 			? localize(
 					"prefixError",
 					"Connection setting prefix cannot be empty.",
 				)
 			: localize("keyError", "Connection setting key cannot be empty.");
+
 		const client = await this.parent.site.createClient(context);
+
 		const appSettingsPrefix: string = await context.ui.showInputBox({
 			prompt,
 			stepName: "connectionSettingPrefix",
@@ -447,6 +488,7 @@ export class CosmosDBTreeItem extends AzExtParentTreeItem {
 		appSettingsPrefix: string,
 	): Map<string, string> {
 		const result: Map<string, string> = new Map<string, string>();
+
 		for (const [key, value] of appSettings) {
 			if (key && value) {
 				result.set(appSettingsPrefix + key, value);

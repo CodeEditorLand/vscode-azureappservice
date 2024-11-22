@@ -20,6 +20,7 @@ export class SetPostPromptDefaultsStep extends AzureWizardExecuteStep<IWebAppWiz
 	public async execute(context: IWebAppWizardContext): Promise<void> {
 		await setPostPromptDefaults(context, this.siteStep);
 		context.newAppInsightsName = await context.relatedNameTask;
+
 		if (!context.newAppInsightsName) {
 			throw new Error(
 				localize(

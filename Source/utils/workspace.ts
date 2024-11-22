@@ -19,6 +19,7 @@ export async function selectWorkspaceFile(
 	getSubPath?: (f: vscode.WorkspaceFolder) => string | undefined,
 ): Promise<string> {
 	let defaultUri: vscode.Uri | undefined;
+
 	if (
 		vscode.workspace.workspaceFolders &&
 		vscode.workspace.workspaceFolders.length > 0 &&
@@ -26,7 +27,9 @@ export async function selectWorkspaceFile(
 	) {
 		const firstFolder: vscode.WorkspaceFolder =
 			vscode.workspace.workspaceFolders[0];
+
 		const subPath: string | undefined = getSubPath(firstFolder);
+
 		if (subPath) {
 			defaultUri = vscode.Uri.file(
 				path.join(firstFolder.uri.fsPath, subPath),
@@ -56,7 +59,9 @@ async function selectWorkspaceItem(
 	fileExtension?: string,
 ): Promise<string> {
 	let folder: IAzureQuickPickItem<string | undefined> | undefined;
+
 	let quickPicks: IAzureQuickPickItem<string | undefined>[] = [];
+
 	if (vscode.workspace.workspaceFolders) {
 		// if there's a fileExtension, then only populate the quickPick menu with that, otherwise show the current folders in the workspace
 		quickPicks = fileExtension
@@ -66,6 +71,7 @@ async function selectWorkspaceItem(
 			: vscode.workspace.workspaceFolders.map(
 					(f: vscode.WorkspaceFolder) => {
 						let subpath: string | undefined;
+
 						if (getSubPath) {
 							subpath = getSubPath(f);
 						}
@@ -73,6 +79,7 @@ async function selectWorkspaceItem(
 						const fsPath: string = subpath
 							? path.join(f.uri.fsPath, subpath)
 							: f.uri.fsPath;
+
 						return {
 							label: path.basename(fsPath),
 							description: fsPath,
@@ -102,6 +109,7 @@ export async function findFilesByFileExtension(
 	const relativeDirectory: vscode.RelativePattern | string = fsPath
 		? new vscode.RelativePattern(fsPath, `*.${fileExtension}`)
 		: path.join("**", `*.${fileExtension}`);
+
 	return await vscode.workspace.findFiles(relativeDirectory);
 }
 

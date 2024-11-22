@@ -39,15 +39,18 @@ export async function promptToSaveDeployDefaults(
 				: path.basename(workspacePath),
 			node.site.fullName,
 		);
+
 		const dontShowAgain: MessageItem = {
 			title: localize("dontShow", "Don't show again"),
 		};
+
 		const result: MessageItem = await context.ui.showWarningMessage(
 			saveDeploymentConfig,
 			DialogResponses.yes,
 			dontShowAgain,
 			DialogResponses.skipForNow,
 		);
+
 		if (result === DialogResponses.yes) {
 			await saveDeployDefaults(node.fullId, workspacePath, deployPath);
 			context.telemetry.properties.promptToSaveDeployConfigs = "Yes";
@@ -81,6 +84,7 @@ export async function saveDeployDefaults(
 		nodeFullId,
 		deployPath,
 	);
+
 	const subPath: string = path.relative(workspacePath, deployPath) || ".";
 	await updateWorkspaceSetting(
 		constants.configurationSettings.deploySubpath,

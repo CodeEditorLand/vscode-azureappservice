@@ -29,11 +29,13 @@ export async function revealConnectionInAppSettings(
 
 	// Ideally this reveals all appSettingKeys, but for now just reveal the first one
 	const firstKey: string = node.appSettingKeys[0];
+
 	const nodeToReveal: AzExtTreeItem | undefined =
 		await ext.rgApi.tree.findTreeItem(
 			`${node.parent.parent.appSettingsNode.fullId}/${firstKey}`,
 			context,
 		);
+
 	if (!nodeToReveal) {
 		throw new Error(
 			localize(

@@ -218,7 +218,9 @@ export class ResolvedWebAppResource
 			: new WebJobsTreeItem(proxyTree);
 
 		const client = await this.site.createClient(context);
+
 		const siteConfig: SiteConfig = await client.getSiteConfig();
+
 		const sourceControl: SiteSourceControl =
 			await client.getSourceControl();
 		this.deploymentsNode = new DeploymentsTreeItem(proxyTree, {
@@ -239,7 +241,9 @@ export class ResolvedWebAppResource
 
 		if (!this.site.isSlot) {
 			let tier: string | undefined;
+
 			let asp: AppServicePlan | undefined;
+
 			try {
 				const client = await this.site.createClient(context);
 				asp = await client.getAppServicePlan();
@@ -281,6 +285,7 @@ export class ResolvedWebAppResource
 					case DeploymentSlotsTreeItem.contextValue:
 					case ResolvedWebAppResource.slotContextValue:
 						return this.deploymentSlotsNode;
+
 					default:
 				}
 			}
@@ -292,6 +297,7 @@ export class ResolvedWebAppResource
 					AppSettingsTreeItem.contextValue,
 					AppSettingTreeItem.contextValue,
 				];
+
 				if (
 					matchContextValue(
 						expectedContextValue,
@@ -306,6 +312,7 @@ export class ResolvedWebAppResource
 					DeploymentsTreeItem.contextValueUnconnected,
 					DeploymentTreeItem.contextValue,
 				];
+
 				if (
 					matchContextValue(
 						expectedContextValue,
@@ -318,6 +325,7 @@ export class ResolvedWebAppResource
 					DeploymentSlotsTreeItem.contextValue,
 					ResolvedWebAppResource.slotContextValue,
 				];
+
 				if (
 					matchContextValue(expectedContextValue, slotsContextValues)
 				) {
@@ -337,8 +345,10 @@ export class ResolvedWebAppResource
 				case CosmosDBTreeItem.contextValueNotInstalled:
 				case CosmosDBConnection.contextValue:
 					return this._connectionsNode;
+
 				case WebJobsTreeItem.contextValue:
 					return this._webJobsNode;
+
 				default:
 					if (
 						typeof expectedContextValue === "string" &&
@@ -395,7 +405,9 @@ export class ResolvedWebAppResource
 
 	public async isHttpLogsEnabled(context: IActionContext): Promise<boolean> {
 		const client = await this.site.createClient(context);
+
 		const logsConfig: SiteLogsConfig = await client.getLogsConfig();
+
 		return !!(
 			logsConfig.httpLogs &&
 			logsConfig.httpLogs.fileSystem &&
@@ -405,6 +417,7 @@ export class ResolvedWebAppResource
 
 	public async enableLogs(context: IActionContext): Promise<void> {
 		const logsConfig: SiteLogsConfig = {};
+
 		if (!this.site.isLinux) {
 			logsConfig.applicationLogs = {
 				fileSystem: {
@@ -419,6 +432,7 @@ export class ResolvedWebAppResource
 				retentionInMb: 100,
 			},
 		};
+
 		const client = await this.site.createClient(context);
 		await client.updateLogsConfig(logsConfig);
 	}

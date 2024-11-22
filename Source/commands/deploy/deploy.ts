@@ -51,7 +51,9 @@ export async function deploy(
 	isNewApp: boolean = false,
 ): Promise<void> {
 	actionContext.telemetry.properties.deployedWithConfigs = "false";
+
 	let siteConfig: SiteConfigResource | undefined;
+
 	let client: SiteClient;
 
 	if (treeUtils.isAzExtTreeItem(arg1)) {
@@ -78,6 +80,7 @@ export async function deploy(
 		arg1,
 		fileExtensions,
 	);
+
 	const context: IDeployContext = Object.assign(actionContext, deployPaths, {
 		defaultAppSetting:
 			constants.configurationSettings.defaultWebAppToDeploy,
@@ -86,6 +89,7 @@ export async function deploy(
 
 	// because this is workspace dependant, do it before user selects app
 	await setPreDeployConfig(context);
+
 	const node: SiteTreeItem = await getDeployNode(
 		context,
 		ext.rgApi.tree,
@@ -120,6 +124,7 @@ export async function deploy(
 	) {
 		const remoteSettings: StringDictionary =
 			await client.listApplicationSettings();
+
 		const hasSCMDoBuildSetting: boolean =
 			!!remoteSettings.properties &&
 			"SCM_DO_BUILD_DURING_DEPLOYMENT" in remoteSettings.properties;
@@ -137,6 +142,7 @@ export async function deploy(
 		) {
 			const linuxFxVersion: string =
 				siteConfig.linuxFxVersion.toLowerCase();
+
 			if (linuxFxVersion.startsWith(LinuxRuntimes.node)) {
 				// if it is node or python, prompt the user (as we can break them)
 				await promptScmDoBuildDeploy(
@@ -181,6 +187,7 @@ export async function deploy(
 	// cancel the previous detector check from the same web app
 	const previousTokenSource: vscode.CancellationTokenSource | undefined =
 		postDeployCancelTokens.get(node.id);
+
 	if (previousTokenSource) {
 		previousTokenSource.cancel();
 	}

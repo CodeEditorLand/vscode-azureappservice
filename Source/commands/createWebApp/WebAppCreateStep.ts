@@ -48,6 +48,7 @@ export class WebAppCreateStep extends AzureWizardExecuteStep<IWebAppWizardContex
 			context.newSiteStack?.majorVersion.value;
 		context.telemetry.properties.newSiteMinorVersion =
 			context.newSiteStack?.minorVersion.value;
+
 		if (context.newSiteJavaStack) {
 			context.telemetry.properties.newSiteJavaStack =
 				context.newSiteJavaStack.stack.value;
@@ -68,6 +69,7 @@ export class WebAppCreateStep extends AzureWizardExecuteStep<IWebAppWizardContex
 		progress.report({ message });
 
 		const siteName: string = nonNullProp(context, "newSiteName");
+
 		const rgName: string = nonNullProp(
 			nonNullProp(context, "resourceGroup"),
 			"name",
@@ -92,6 +94,7 @@ export class WebAppCreateStep extends AzureWizardExecuteStep<IWebAppWizardContex
 			context,
 			constants.webProvider,
 		);
+
 		const newSiteConfig: SiteConfig = this.getSiteConfig(context);
 
 		const site: Site = {
@@ -113,6 +116,7 @@ export class WebAppCreateStep extends AzureWizardExecuteStep<IWebAppWizardContex
 
 	private getKind(context: IWebAppWizardContext): string {
 		let kind: string = context.newSiteKind;
+
 		if (context.newSiteOS === "linux") {
 			kind += ",linux";
 		}
@@ -138,6 +142,7 @@ export class WebAppCreateStep extends AzureWizardExecuteStep<IWebAppWizardContex
 		newSiteConfig.appSettings = this.getAppSettings(context);
 
 		const stack: FullWebAppStack = nonNullProp(context, "newSiteStack");
+
 		if (context.newSiteOS === WebsiteOS.linux) {
 			newSiteConfig.linuxFxVersion =
 				stack.stack.value === "java"
@@ -155,6 +160,7 @@ export class WebAppCreateStep extends AzureWizardExecuteStep<IWebAppWizardContex
 				stack.minorVersion.stackSettings,
 				"windowsRuntimeSettings",
 			).runtimeVersion;
+
 			switch (stack.stack.value) {
 				case "dotnet":
 					if (!/core/i.test(stack.minorVersion.displayText)) {
@@ -162,22 +168,29 @@ export class WebAppCreateStep extends AzureWizardExecuteStep<IWebAppWizardContex
 						newSiteConfig.netFrameworkVersion = runtimeVersion;
 					}
 					break;
+
 				case "php":
 					newSiteConfig.phpVersion = runtimeVersion;
+
 					break;
+
 				case "node":
 					newSiteConfig.nodeVersion = runtimeVersion;
 					newSiteConfig.appSettings.push({
 						name: "WEBSITE_NODE_DEFAULT_VERSION",
 						value: runtimeVersion,
 					});
+
 					break;
+
 				case "java":
 					newSiteConfig.javaVersion = runtimeVersion;
+
 					const javaStack: FullJavaStack = nonNullProp(
 						context,
 						"newSiteJavaStack",
 					);
+
 					const windowsStackSettings: WindowsJavaContainerSettings =
 						nonNullProp(
 							javaStack.minorVersion.stackSettings,
@@ -187,10 +200,14 @@ export class WebAppCreateStep extends AzureWizardExecuteStep<IWebAppWizardContex
 						windowsStackSettings.javaContainer;
 					newSiteConfig.javaContainerVersion =
 						windowsStackSettings.javaContainerVersion;
+
 					break;
+
 				case "python":
 					newSiteConfig.pythonVersion = runtimeVersion;
+
 					break;
+
 				default:
 			}
 		}
@@ -199,11 +216,14 @@ export class WebAppCreateStep extends AzureWizardExecuteStep<IWebAppWizardContex
 
 	private getAppSettings(context: IWebAppWizardContext): NameValuePair[] {
 		const appSettings: NameValuePair[] = [];
+
 		const disabled: string = "disabled";
+
 		const trueString: string = "true";
 
 		const runtime: WebAppStackValue = nonNullProp(context, "newSiteStack")
 			.stack.value;
+
 		if (
 			context.newSiteOS === WebsiteOS.linux &&
 			(runtime === "node" || runtime === "python")

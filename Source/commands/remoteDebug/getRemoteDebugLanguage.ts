@@ -36,6 +36,7 @@ export function getRemoteDebugLanguage(
 
 		if (version.startsWith("node")) {
 			const splitVersion = version.split("|");
+
 			if (
 				splitVersion.length > 1 &&
 				isNodeVersionSupported(splitVersion[1])
@@ -87,11 +88,13 @@ function isNodeVersionSupported(nodeVersion: string): boolean {
 	}
 
 	const splitNodeVersion = nodeVersion.split(".");
+
 	if (splitNodeVersion.length < 2) {
 		return false;
 	}
 
 	const major = +splitNodeVersion[0];
+
 	const minor = +splitNodeVersion[1];
 
 	return major > 8 || (major === 8 && minor >= 11);

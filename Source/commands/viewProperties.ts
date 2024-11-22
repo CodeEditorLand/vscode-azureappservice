@@ -17,6 +17,7 @@ export async function viewProperties(
 	treeItem?: SiteTreeItem,
 ): Promise<void> {
 	const node = nonNullValue(treeItem);
+
 	const client = await node.site.createClient(context);
 	await node.runWithTemporaryDescription(
 		context,

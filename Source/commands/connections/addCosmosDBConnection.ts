@@ -29,6 +29,7 @@ export async function addCosmosDBConnection(
 	}
 
 	let cosmosDBTreeItem: AzExtParentTreeItem;
+
 	if (node instanceof CosmosDBTreeItem) {
 		cosmosDBTreeItem = node;
 	} else {

@@ -15,12 +15,15 @@ export function getJavaLinuxRuntime(
 		case "17":
 			return containerMinorVersion.stackSettings.linuxContainerSettings
 				?.java17Runtime;
+
 		case "11":
 			return containerMinorVersion.stackSettings.linuxContainerSettings
 				?.java11Runtime;
+
 		case "8":
 			return containerMinorVersion.stackSettings.linuxContainerSettings
 				?.java8Runtime;
+
 		default:
 			throw new RangeError(
 				localize(

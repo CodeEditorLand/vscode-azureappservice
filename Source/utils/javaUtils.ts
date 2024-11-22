@@ -20,8 +20,11 @@ import { type SiteTreeItem } from "../tree/SiteTreeItem";
 
 export namespace javaUtils {
 	const DEFAULT_PORT: string = "8080";
+
 	const PORT_KEY: string = "PORT";
+
 	const JAVA_WEB_CONTAINER_REGEX: RegExp = /^(tomcat|wildfly|jboss)/i;
+
 	const JAVA_SE_REGEX: RegExp = /^java/i;
 
 	function isJavaWebContainerRuntime(
@@ -119,13 +122,16 @@ export namespace javaUtils {
 		node: SiteTreeItem,
 	): Promise<StringDictionary | undefined> {
 		const client = await node.site.createClient(context);
+
 		const appSettings: StringDictionary =
 			await client.listApplicationSettings();
+
 		if (isJavaSERequiredPortConfigured(appSettings)) {
 			return undefined;
 		}
 
 		appSettings.properties = appSettings.properties || {};
+
 		const port: string = await context.ui.showInputBox({
 			value: DEFAULT_PORT,
 			prompt: localize(
@@ -142,10 +148,12 @@ export namespace javaUtils {
 						);
 			},
 		});
+
 		if (!port) {
 			throw new UserCancelledError("javaPort");
 		}
 		appSettings.properties[PORT_KEY] = port;
+
 		return client.updateApplicationSettings(appSettings);
 	}
 

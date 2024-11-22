@@ -11,6 +11,7 @@ export namespace venvUtils {
 		projectPath: string,
 	): Promise<string[]> {
 		const venvs: string[] = [];
+
 		const fsPaths: string[] = await fse.readdir(projectPath);
 		await Promise.all(
 			fsPaths.map(async (venvName: string) => {
@@ -28,8 +29,10 @@ export namespace venvUtils {
 		rootFolder: string,
 	): Promise<boolean> {
 		const venvPath: string = path.join(rootFolder, venvName);
+
 		if (await fse.pathExists(venvPath)) {
 			const stat: fse.Stats = await fse.stat(venvPath);
+
 			if (stat.isDirectory()) {
 				const venvActivatePath: string = getVenvPath(
 					venvName,
@@ -37,6 +40,7 @@ export namespace venvUtils {
 					process.platform,
 					path.join,
 				);
+
 				if (
 					await fse.pathExists(
 						path.join(rootFolder, venvActivatePath),
@@ -56,7 +60,9 @@ export namespace venvUtils {
 		pathJoin: (...p: string[]) => string,
 	): string {
 		const middleFs: string = platform === "win32" ? "Scripts" : "bin";
+
 		const paths: string[] = [".", venvName, middleFs, lastFs];
+
 		return pathJoin(...paths);
 	}
 }

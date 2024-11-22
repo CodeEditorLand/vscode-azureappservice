@@ -5,6 +5,7 @@
 
 export interface ISiteTreeItem {
 	defaultHostUrl: string;
+
 	defaultHostName: string;
 	browse(): Promise<void>;
 }

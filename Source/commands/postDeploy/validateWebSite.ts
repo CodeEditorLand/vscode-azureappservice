@@ -26,6 +26,7 @@ interface IValidateProperties {
 }
 
 const initialPollingIntervalMs = 5000;
+
 const pollingIncrementMs = 0; // Increase in interval each time
 const maximumValidationMs = 60 * 1000;
 
@@ -48,9 +49,13 @@ export async function validateWebSite(
 			properties.correlationId = deploymentCorrelationId;
 
 			let pollingIntervalMs = initialPollingIntervalMs;
+
 			const start = Date.now();
+
 			const url = siteTreeItem.site.defaultHostUrl;
+
 			let currentStatusCode: number | undefined = 0;
+
 			const statusCodes: { code: number | undefined; elapsed: number }[] =
 				[];
 

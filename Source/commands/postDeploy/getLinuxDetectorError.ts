@@ -48,6 +48,7 @@ export async function getLinuxDetectorError(
 	deployEndTime: string,
 ): Promise<string | undefined> {
 	const detectorUri: string = `${node.id}/detectors/${detectorId}`;
+
 	const client: ServiceClient = await createGenericClient(
 		context,
 		node.subscription,
@@ -90,17 +91,20 @@ export async function getLinuxDetectorError(
 		insightLogTable,
 		ColumnName.value,
 	);
+
 	const insightDataset: detectorDataset[] = <detectorDataset[]>(
 		JSON.parse(rawApplicationLog)
 	);
 
 	let insightTable: detectorTable;
+
 	let detectorTimestamp: string;
 
 	const appInsightTable: detectorTable | undefined = findTableByName(
 		insightDataset,
 		"application/insight",
 	);
+
 	if (appInsightTable) {
 		insightTable = appInsightTable;
 		context.telemetry.properties.insight = "app";
@@ -115,6 +119,7 @@ export async function getLinuxDetectorError(
 			insightDataset,
 			"docker/insight",
 		);
+
 		if (!dockerInsightTable) {
 			return undefined;
 		}
@@ -153,6 +158,7 @@ export async function getLinuxDetectorError(
 		);
 		context.telemetry.properties.errorMessages =
 			JSON.stringify(insightError);
+
 		return localize(
 			"criticalError",
 			'"{0}" reported a critical error: {1}',
@@ -184,6 +190,7 @@ export function validateTimestamp(
 	}
 
 	context.telemetry.properties.invalidTimestamp = "true";
+
 	return false;
 }
 

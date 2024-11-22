@@ -61,6 +61,7 @@ export class WebAppStackStep extends AzureWizardPromptStep<IWebAppWizardContext>
 			return { promptSteps: [new SiteOSStep()] };
 		} else {
 			await setLocationsTask(context);
+
 			return undefined;
 		}
 	}

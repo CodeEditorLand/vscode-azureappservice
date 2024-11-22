@@ -19,11 +19,13 @@ export async function stopWebApp(
 	}
 
 	const client = await node.site.createClient(context);
+
 	const stoppingApp: string = localize(
 		"stoppingApp",
 		'Stopping "{0}"...',
 		node.site.fullName,
 	);
+
 	const stoppedApp: string = localize(
 		"stoppedApp",
 		'"{0}" has been stopped. App Service plan charges still apply.',

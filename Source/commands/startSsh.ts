@@ -50,6 +50,7 @@ export async function startSsh(
 	const currentSshTerminal: sshTerminal | undefined = sshSessionsMap.get(
 		node.site.fullName,
 	);
+
 	if (currentSshTerminal) {
 		if (currentSshTerminal.starting) {
 			throw new Error(
@@ -68,6 +69,7 @@ export async function startSsh(
 				currentSshTerminal.tunnel,
 				currentSshTerminal.localPort,
 			);
+
 			return;
 		}
 	}
@@ -82,6 +84,7 @@ export async function startSsh(
 		await startSshInternal(context, node);
 	} catch (error) {
 		sshSessionsMap.delete(node.site.fullName);
+
 		throw error;
 	}
 }
@@ -109,10 +112,12 @@ async function startSshInternal(
 			);
 
 			const client = await node.site.createClient(context);
+
 			const confirmDisableMessage: string = localize(
 				"confirmDisable",
 				"Remote debugging must be disabled in order to SSH. This will restart the app.",
 			);
+
 			const siteConfig: SiteConfigResource = await client.getSiteConfig();
 			// remote debugging has to be disabled in order to tunnel to the 2222 port
 			await setRemoteDebug(

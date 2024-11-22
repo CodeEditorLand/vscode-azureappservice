@@ -46,6 +46,7 @@ export class CosmosDBConnection extends AzExtTreeItem {
 		cosmosExtensionItem: DatabaseAccountTreeItem | DatabaseTreeItem,
 	): string {
 		let label: string;
+
 		if (cosmosExtensionItem.azureData) {
 			label = cosmosExtensionItem.azureData.accountName;
 		} else {
@@ -55,6 +56,7 @@ export class CosmosDBConnection extends AzExtTreeItem {
 		const dbName: string | undefined = (<DatabaseTreeItem>(
 			cosmosExtensionItem
 		)).databaseName;
+
 		if (dbName) {
 			label += `/${dbName}`;
 		}
@@ -69,8 +71,10 @@ export class CosmosDBConnection extends AzExtTreeItem {
 	public async deleteTreeItemImpl(context: IActionContext): Promise<void> {
 		const appSettingsClient: IAppSettingsClient =
 			await this.parent.site.createClient(context);
+
 		const appSettings: StringDictionary =
 			await appSettingsClient.listApplicationSettings();
+
 		if (appSettings.properties) {
 			const warning: string = localize(
 				"removeConnection",
@@ -84,6 +88,7 @@ export class CosmosDBConnection extends AzExtTreeItem {
 				{ modal: true, stepName: "removeConnection" },
 				DialogResponses.deleteResponse,
 			);
+
 			for (const key of this.appSettingKeys) {
 				delete appSettings.properties[key];
 			}

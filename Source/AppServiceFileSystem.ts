@@ -53,6 +53,7 @@ export class AppServiceFileSystem extends AzExtTreeFileSystem<FileSystemItem> {
 	): Promise<Uint8Array> {
 		const result: ISiteFile = await getFile(context, node.site, node.url);
 		this._etags.set(node.fullId, result.etag);
+
 		return Buffer.from(result.data);
 	}
 
@@ -63,6 +64,7 @@ export class AppServiceFileSystem extends AzExtTreeFileSystem<FileSystemItem> {
 		_originalUri: Uri,
 	): Promise<void> {
 		const showSavePromptKey: string = "showSavePrompt";
+
 		if (getWorkspaceSetting<boolean>(showSavePromptKey)) {
 			const message: string = localize(
 				"saveConfirmation",
@@ -70,6 +72,7 @@ export class AppServiceFileSystem extends AzExtTreeFileSystem<FileSystemItem> {
 				node.label,
 				node.site.fullName,
 			);
+
 			const result: MessageItem | undefined =
 				await context.ui.showWarningMessage(
 					message,
@@ -77,6 +80,7 @@ export class AppServiceFileSystem extends AzExtTreeFileSystem<FileSystemItem> {
 					DialogResponses.alwaysUpload,
 					DialogResponses.dontUpload,
 				);
+
 			if (result === DialogResponses.alwaysUpload) {
 				await updateGlobalSetting(showSavePromptKey, false);
 			} else if (result === DialogResponses.dontUpload) {
@@ -85,6 +89,7 @@ export class AppServiceFileSystem extends AzExtTreeFileSystem<FileSystemItem> {
 		}
 
 		let etag: string = nonNullValue(this._etags.get(node.fullId), "etag");
+
 		try {
 			this.appendLineToOutput(
 				localize("updating", 'Updating "{0}" ...', node.label),
@@ -97,6 +102,7 @@ export class AppServiceFileSystem extends AzExtTreeFileSystem<FileSystemItem> {
 			);
 		} catch (error) {
 			const parsedError: IParsedError = parseError(error);
+
 			if (
 				parsedError.errorType === "412" &&
 				/etag/i.test(parsedError.message)

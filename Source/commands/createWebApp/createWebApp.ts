@@ -88,7 +88,9 @@ export async function createWebApp(
 	await setPrePromptDefaults(wizardContext);
 
 	const promptSteps: AzureWizardPromptStep<IWebAppWizardContext>[] = [];
+
 	const executeSteps: AzureWizardExecuteStep<IWebAppWizardContext>[] = [];
+
 	const siteStep: SiteNameStep = new SiteNameStep();
 	promptSteps.push(siteStep);
 
@@ -119,6 +121,7 @@ export async function createWebApp(
 	}
 
 	const title: string = localize("createApp", "Create new web app");
+
 	const wizard: AzureWizard<IWebAppWizardContext> = new AzureWizard(
 		wizardContext,
 		{ promptSteps, executeSteps, title },
@@ -143,6 +146,7 @@ export async function createWebApp(
 	ext.outputChannel.appendLog(getCreatedWebAppMessage(site));
 
 	const newNode: SiteTreeItem = new SiteTreeItem(node, rawSite);
+
 	try {
 		//enable HTTP & Application logs (only for windows) by default
 		await newNode.enableLogs(context);

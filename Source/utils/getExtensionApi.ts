@@ -15,6 +15,7 @@ export async function getApiExport<T>(
 ): Promise<T | undefined> {
 	const extension: Extension<T> | undefined =
 		extensions.getExtension(extensionId);
+
 	if (extension) {
 		if (!extension.isActive) {
 			await extension.activate();
@@ -31,6 +32,7 @@ export async function getResourceGroupsApi(): Promise<AzureHostExtensionApi> {
 		await getApiExport<apiUtils.AzureExtensionApiProvider>(
 			"ms-azuretools.vscode-azureresourcegroups",
 		);
+
 	if (rgApiProvider) {
 		return rgApiProvider.getApi<AzureHostExtensionApi>("0.0.1");
 	} else {
@@ -48,6 +50,7 @@ export async function getCosmosDBApi(): Promise<AzureDatabasesExtensionApi> {
 		await getApiExport<apiUtils.AzureExtensionApiProvider>(
 			"ms-azuretools.vscode-cosmosdb",
 		);
+
 	if (dbApiProvider) {
 		return dbApiProvider.getApi<AzureDatabasesExtensionApi>("^1.0.0");
 	} else {

@@ -45,11 +45,13 @@ export async function downloadAppSettings(
 		"selectDest",
 		"Select the destination file for your downloaded settings.",
 	);
+
 	const envVarPath: string = await workspaceUtil.selectWorkspaceFile(
 		context,
 		message,
 		() => envFileName,
 	);
+
 	const envVarUri: vscode.Uri = vscode.Uri.file(envVarPath);
 
 	await node.runWithTemporaryDescription(
@@ -63,14 +65,17 @@ export async function downloadAppSettings(
 					client.fullName,
 				),
 			);
+
 			const localEnvVariables: DotenvParseOutput =
 				await getLocalEnvironmentVariables(
 					context,
 					envVarPath,
 					true /* allowOverwrite */,
 				);
+
 			const remoteEnvVariables: StringDictionary =
 				await client.listApplicationSettings();
+
 			if (remoteEnvVariables.properties) {
 				await confirmOverwriteSettings(
 					context,
@@ -120,6 +125,7 @@ export function convertAppSettingsToEnvVariables(
 		appName,
 		os.EOL,
 	);
+
 	for (const property of Object.keys(appSettings)) {
 		envData += `${property}="${appSettings[property]}"`;
 		envData += os.EOL;

@@ -41,6 +41,7 @@ export async function tryGetCsprojFile(
 
 async function checkFolderForCsproj(filePath: string): Promise<string[]> {
 	const files: string[] = await fse.readdir(filePath);
+
 	const filePaths: string[] = files.map((f: string) => {
 		return path.join(filePath, f);
 	});

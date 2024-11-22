@@ -40,6 +40,7 @@ export async function checkLinuxWebAppDownDetector(
 			context.telemetry.properties.correlationId = correlationId;
 
 			const kuduClient = await node.site.createClient(context);
+
 			const deployment: DeployResult = await kuduClient.getDeployResult(
 				context,
 				"latest",
@@ -48,10 +49,12 @@ export async function checkLinuxWebAppDownDetector(
 			if (!deployment.endTime) {
 				// if there's no deployment detected, nothing can be done
 				context.telemetry.properties.lastStep = "noDeployResult";
+
 				return;
 			}
 
 			let detectorErrorMessage: string | undefined;
+
 			const detectorTimeoutMs: number = Date.now() + 5 * 60 * 1000;
 
 			while (!detectorErrorMessage) {
@@ -62,6 +65,7 @@ export async function checkLinuxWebAppDownDetector(
 
 				if (Date.now() > detectorTimeoutMs) {
 					context.telemetry.properties.timedOut = "true";
+
 					return undefined;
 				}
 
@@ -69,15 +73,19 @@ export async function checkLinuxWebAppDownDetector(
 				// by 14.5 minutes. That being said, the LinuxLogDetector team ignores the times and always gets the most recent entry.
 				// We'll use 30/60 minutes just to make sure we're well over 14.5
 				const nowTime: number = Date.now();
+
 				const startTimeDate: Date = new Date(nowTime - 60 * 60 * 1000);
+
 				const endTimeDate: Date = new Date(nowTime - 30 * 60 * 1000);
 
 				const startTime: string = dayjs
 					.utc(startTimeDate)
 					.format(detectorTimestampFormat);
+
 				const endTime: string = dayjs
 					.utc(endTimeDate)
 					.format(detectorTimestampFormat);
+
 				const deployEndTime: string = dayjs
 					.utc(deployment.endTime)
 					.format(detectorTimestampFormat);

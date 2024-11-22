@@ -50,6 +50,7 @@ export async function getStackPicks(
 	);
 
 	const picks: IAzureQuickPickItem<FullWebAppStack | FullJavaStack>[] = [];
+
 	for (const stack of stacks) {
 		for (const majorVersion of stack.majorVersions) {
 			// Filter out versions that have major, minor, _and_ patch specified (Aka we only want Node.js 14, not Node.js 14.1.1)
@@ -61,14 +62,18 @@ export async function getStackPicks(
 
 			for (const minorVersion of minorVersions) {
 				let description: string | undefined;
+
 				const previewOs = getFlagOs(
 					minorVersion.stackSettings,
 					"isPreview",
 				);
+
 				switch (previewOs) {
 					case "All":
 						description = localize("preview", "(Preview)");
+
 						break;
+
 					case "Linux":
 					case "Windows":
 						description = localize(
@@ -76,6 +81,7 @@ export async function getStackPicks(
 							"(Preview on {0})",
 							previewOs,
 						);
+
 						break;
 				}
 
@@ -83,10 +89,13 @@ export async function getStackPicks(
 					minorVersion.stackSettings,
 					"isEarlyAccess",
 				);
+
 				switch (earlyAccessOS) {
 					case "All":
 						description = localize("earlyAccess", "(Early Access)");
+
 						break;
+
 					case "Linux":
 					case "Windows":
 						description = localize(
@@ -94,6 +103,7 @@ export async function getStackPicks(
 							"(Early Access on {0})",
 							earlyAccessOS,
 						);
+
 						break;
 				}
 
@@ -165,11 +175,13 @@ async function getStacks(
 ): Promise<WebAppStack[]> {
 	if (!context._stacks) {
 		let stacksArmResponse: StacksArmResponse;
+
 		try {
 			const client: ServiceClient = await createGenericClient(
 				context,
 				context,
 			);
+
 			const result: AzExtPipelineResponse = await client.sendRequest(
 				createPipelineRequest({
 					method: "GET",
@@ -212,10 +224,12 @@ function sortStacks(
 ): WebAppStack[] {
 	const recommendedRuntimes: WebAppStackValue[] =
 		context.recommendedSiteRuntime || [];
+
 	function getPriority(stack: WebAppStack): number {
 		const index: number = recommendedRuntimes.findIndex(
 			(s) => s === stack.value,
 		);
+
 		return index === -1 ? recommendedRuntimes.length : index;
 	}
 	return stacks.sort((s1, s2) => getPriority(s1) - getPriority(s2));

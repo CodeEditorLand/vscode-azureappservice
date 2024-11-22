@@ -33,6 +33,7 @@ export async function promptScmDoBuildDeploy(
 		"buildDuringDeploy",
 		"Would you like to update your workspace configuration to run build commands on the target server? This should improve deployment performance.",
 	);
+
 	const input: MessageItem | undefined = await context.ui.showWarningMessage(
 		buildDuringDeploy,
 		{ modal: true, learnMoreLink, stepName: "buildDuringDeploy" },
@@ -61,10 +62,12 @@ export async function enableScmDoBuildDuringDeploy(
 		fsPath,
 		runtime,
 	);
+
 	let oldSettings: string[] | string | undefined = getWorkspaceSetting(
 		constants.configurationSettings.zipIgnorePattern,
 		fsPath,
 	);
+
 	if (!oldSettings) {
 		oldSettings = [];
 	} else if (typeof oldSettings === "string") {
@@ -72,6 +75,7 @@ export async function enableScmDoBuildDuringDeploy(
 		// settings have to be an array to concat the proper zipIgnoreFolders
 	}
 	const newSettings: string[] = oldSettings;
+
 	for (const folder of zipIgnoreFolders) {
 		if (oldSettings.indexOf(folder) < 0) {
 			newSettings.push(folder);
@@ -93,12 +97,16 @@ async function getIgnoredFoldersForDeployment(
 	runtime: string,
 ): Promise<string[]> {
 	let ignoredFolders: string[];
+
 	switch (runtime) {
 		case LinuxRuntimes.node:
 			ignoredFolders = ["node_modules{,/**}"];
+
 			break;
+
 		case LinuxRuntimes.python:
 			let venvFsPaths: string[];
+
 			try {
 				venvFsPaths = (await venvUtils.getExistingVenvs(fsPath)).map(
 					(venvPath) => `${venvPath}{,/**}`,
@@ -145,6 +153,7 @@ async function getIgnoredFoldersForDeployment(
 				"env.bak{,/**}",
 				"venv.bak{,/**}",
 			];
+
 			for (const venvPath of venvFsPaths) {
 				// don't add duplicates
 				if (!defaultVenvPaths.find((p) => p === venvPath)) {
@@ -153,12 +162,15 @@ async function getIgnoredFoldersForDeployment(
 			}
 
 			ignoredFolders = ignoredFolders.concat(defaultVenvPaths);
+
 			break;
+
 		default:
 			ignoredFolders = [];
 	}
 
 	// add .vscode to the ignorePattern since it will never be needed for deployment
 	ignoredFolders.push(".vscode{,/**}");
+
 	return ignoredFolders;
 }

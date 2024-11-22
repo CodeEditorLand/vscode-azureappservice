@@ -28,6 +28,7 @@ export async function tryGetMavenModule(
 	projectPath: string,
 ): Promise<MavenModule | undefined> {
 	const pomFile = path.join(projectPath, "pom.xml");
+
 	if (
 		(await fse.pathExists(projectPath)) &&
 		(await fse.lstat(projectPath)).isDirectory() &&
@@ -42,16 +43,23 @@ async function getMavenModuleFromPom(
 	pomFile: string,
 ): Promise<MavenModule | undefined> {
 	const pomContent: Buffer = await fse.readFile(pomFile);
+
 	try {
 		const parser = new XMLParser();
+
 		const pom = parser.parse(pomContent.toString()) as MavenPom;
+
 		const pj = pom.project;
+
 		if (pj && pj.artifactId) {
 			const version = pj.version || pj.parent?.version;
+
 			const defaultName = version
 				? `${pj.artifactId}-${version}`
 				: pj.artifactId;
+
 			const artifactFinalName = `${pj.build?.finalName ?? defaultName}.${pj.packaging || "jar"}`;
+
 			return {
 				path: path.dirname(pomFile),
 				artifactId: pom.project.artifactId,

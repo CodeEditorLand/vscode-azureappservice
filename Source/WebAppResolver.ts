@@ -54,9 +54,11 @@ export class WebAppResolver implements AppResourceResolver {
 				}
 
 				await this.listWebAppsTask;
+
 				const site = this.siteCache.get(
 					nonNullProp(resource, "id").toLowerCase(),
 				);
+
 				return new ResolvedWebAppResource(
 					subContext,
 					nonNullValue(site),

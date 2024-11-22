@@ -21,6 +21,7 @@ export async function startWebApp(
 		'Starting "{0}"...',
 		node.site.fullName,
 	);
+
 	const startedApp: string = localize(
 		"startedApp",
 		'"{0}" has been started.',

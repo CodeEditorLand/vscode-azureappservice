@@ -24,14 +24,18 @@ export async function uploadAppSettings(
 	target?: Uri | AppSettingsTreeItem | string | undefined,
 ): Promise<void> {
 	context.telemetry.eventVersion = 2;
+
 	let node: AppSettingsTreeItem | undefined;
+
 	let envPath: string;
+
 	if (typeof target === "string") {
 		envPath = target;
 	} else if (target instanceof Uri) {
 		envPath = target.fsPath;
 	} else {
 		node = target;
+
 		const message: string = localize(
 			"selectEnv",
 			"Select the local .env file to upload.",
@@ -63,9 +67,11 @@ export async function uploadAppSettings(
 		async () => {
 			const localEnvVariables: dotenv.DotenvParseOutput =
 				await getLocalEnvironmentVariables(context, envPath);
+
 			if (Object.keys(localEnvVariables).length > 0) {
 				const remoteSettings: StringDictionary =
 					await client.listApplicationSettings();
+
 				if (!remoteSettings.properties) {
 					remoteSettings.properties = {};
 				}

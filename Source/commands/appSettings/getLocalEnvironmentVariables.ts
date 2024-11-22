@@ -16,6 +16,7 @@ export async function getLocalEnvironmentVariables(
 ): Promise<dotenv.DotenvParseOutput> {
 	if (await fse.pathExists(localSettingsPath)) {
 		const data: string = (await fse.readFile(localSettingsPath)).toString();
+
 		try {
 			return dotenv.parse(data);
 		} catch (error) {
@@ -25,6 +26,7 @@ export async function getLocalEnvironmentVariables(
 					"Failed to parse local environment: {0}. Overwrite?",
 					parseError(error).message,
 				);
+
 				const overwriteButton: MessageItem = {
 					title: localize("overwrite", "Overwrite"),
 				};

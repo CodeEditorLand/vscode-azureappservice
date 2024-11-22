@@ -19,8 +19,10 @@ export async function readAzConfig(
 	...propertiesToRead: AzConfigProperty[]
 ): Promise<AzConfig> {
 	const config: AzConfig = {};
+
 	const workspaceFolder: WorkspaceFolder | undefined =
 		getSingleRootWorkspace(wizardContext);
+
 	const workspacePath: string | undefined = workspaceFolder
 		? workspaceFolder.uri.fsPath
 		: undefined;
@@ -35,6 +37,7 @@ export async function readAzConfig(
 				"az configure --list-defaults --output json",
 			),
 		);
+
 		const azLocalConfigListing: IAzConfigItem[] | undefined = <
 			IAzConfigItem[] | undefined
 		>JSON.parse(

@@ -81,13 +81,16 @@ export class DeploymentSlotsTreeItem extends AzExtParentTreeItem {
 		const existingSlots = (<SiteTreeItem[]>(
 			await this.getCachedChildren(context)
 		)).map((ti) => ti.site);
+
 		const rawSite: Site = await createSlot(
 			this.parent.site,
 			existingSlots,
 			context,
 		);
+
 		const site = new ParsedSite(rawSite, this.subscription);
 		ext.outputChannel.appendLog(getCreatedWebAppMessage(site));
+
 		return new SiteTreeItem(this, rawSite);
 	}
 }

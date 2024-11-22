@@ -24,6 +24,7 @@ export async function showFile(
 		localize("opening", 'Opening "{0}"...', node.label),
 		{ resourceName: node.site.fullName },
 	);
+
 	if (node.isReadOnly) {
 		await node.openReadOnly(context);
 	} else {

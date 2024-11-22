@@ -19,6 +19,7 @@ export async function setPreDeployConfig(
 	context: IDeployContext,
 ): Promise<void> {
 	const showPreDeployWarningSetting: string = "showPreDeployWarning";
+
 	const workspaceFspath: string = context.workspaceFolder.uri.fsPath;
 
 	// don't overwrite preDeploy or deploySubpath if it exists and respect configurePreDeployTasks setting
@@ -60,11 +61,13 @@ export async function setPreDeployConfig(
 		context,
 		workspaceFspath,
 	);
+
 	if (csprojFile) {
 		await setPreDeployConfigForDotnet(context, csprojFile);
 	}
 
 	const mavenModule = await tryGetMavenModule(context, workspaceFspath);
+
 	if (mavenModule) {
 		await setPreDeployTaskForMavenModule(context, mavenModule);
 	}

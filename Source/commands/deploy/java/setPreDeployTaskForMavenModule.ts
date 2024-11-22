@@ -17,6 +17,7 @@ export async function setPreDeployTaskForMavenModule(
 	module: { path: string; artifactId: string; artifactFinalName: string },
 ): Promise<void> {
 	const workspaceFspath: string = context.workspaceFolder.uri.fsPath;
+
 	const mavenPackageTaskName: string = `package:${module.artifactId}`;
 
 	const notConfiguredForDeploy: string = localize(
@@ -24,6 +25,7 @@ export async function setPreDeployTaskForMavenModule(
 		'Required configuration to deploy is missing from "{0}".',
 		context.workspaceFolder.name,
 	);
+
 	const addConfigButton: MessageItem = {
 		title: localize("addConfig", "Add Config"),
 	};
@@ -37,6 +39,7 @@ export async function setPreDeployTaskForMavenModule(
 		workspaceFspath,
 		module.path,
 	);
+
 	const deploySubpath: string = path.posix.join(
 		relativeModulePath,
 		"target",
@@ -63,6 +66,7 @@ export async function setPreDeployTaskForMavenModule(
 	const currentVersion: string | undefined = tasks.getTasksVersion(
 		context.workspaceFolder,
 	);
+
 	if (!currentVersion) {
 		await tasks.updateTasksVersion(
 			context.workspaceFolder,
@@ -73,9 +77,11 @@ export async function setPreDeployTaskForMavenModule(
 	const existingTasks: tasks.ITask[] = tasks.getTasks(
 		context.workspaceFolder,
 	);
+
 	let packageTask: tasks.ITask | undefined = existingTasks.find(
 		(t1) => t1.label === mavenPackageTaskName,
 	);
+
 	if (!packageTask) {
 		packageTask = generateMavenPackageTask(relativeModulePath);
 		packageTask.label = mavenPackageTaskName;

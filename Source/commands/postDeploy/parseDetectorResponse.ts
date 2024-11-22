@@ -33,6 +33,7 @@ export function getValuesByColumnName(
 	const rowIndex: number = table.columns.findIndex(
 		(column) => column.columnName === columnName,
 	);
+
 	const values: string[] = [];
 
 	if (rowIndex >= 0) {

@@ -43,6 +43,7 @@ export async function enableFileLogging(
 					"Checking container diagnostics settings...",
 				),
 			});
+
 			return await siteNode.isHttpLogsEnabled(context);
 		},
 	);
@@ -57,11 +58,13 @@ export async function enableFileLogging(
 			{ modal: true, stepName: "enableFileLogging" },
 			DialogResponses.yes,
 		);
+
 		const enablingLogging: string = localize(
 			"enablingLogging",
 			'Enabling Logging for "{0}"...',
 			siteNode.site.fullName,
 		);
+
 		const enabledLogging: string = localize(
 			"enabledLogging",
 			'Enabled Logging for "{0}".',

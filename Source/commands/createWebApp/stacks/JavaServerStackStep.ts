@@ -24,6 +24,7 @@ export class JavaServerStackStep extends AzureWizardPromptStep<IWebAppWizardCont
 			"selectJavaServerStack",
 			"Select a Java web server stack.",
 		);
+
 		const javaVersion: string = nonNullProp(context, "newSiteStack")
 			.majorVersion.value;
 		context.newSiteJavaStack = (
@@ -57,6 +58,7 @@ export class JavaServerStackStep extends AzureWizardPromptStep<IWebAppWizardCont
 			return { promptSteps: [new SiteOSStep()] };
 		} else {
 			await setLocationsTask(context);
+
 			return undefined;
 		}
 	}

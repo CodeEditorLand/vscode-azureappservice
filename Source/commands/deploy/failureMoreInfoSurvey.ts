@@ -25,6 +25,7 @@ function shouldPromptForSurvey(
 			.startsWith(LinuxRuntimes.python)
 	) {
 		const msg: string = error.message.toLowerCase();
+
 		if (msg.includes("the service is unavailable")) {
 			return "python-serviceunavailable";
 		}
@@ -65,6 +66,7 @@ async function showSurveyPopup(message: string, uri: Uri): Promise<void> {
 		message,
 		DialogResponses.reportAnIssue,
 	);
+
 	if (button === DialogResponses.reportAnIssue) {
 		void env.openExternal(uri);
 	}
@@ -79,6 +81,7 @@ export function failureMoreInfoSurvey(
 	}
 
 	const failureKey: string | null = shouldPromptForSurvey(error, siteConfig);
+
 	if (failureKey === null) {
 		return false;
 	}
@@ -94,5 +97,6 @@ export function failureMoreInfoSurvey(
 			`${SURVEY_URL}?k=${encodeURIComponent(failureKey)}&m=${encodeURIComponent(env.machineId)}`,
 		),
 	);
+
 	return true;
 }

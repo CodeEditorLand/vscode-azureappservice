@@ -18,12 +18,18 @@ import { type AzureAccountTreeItem } from "./tree/AzureAccountTreeItem";
  */
 export namespace ext {
 	export let outputChannel: IAzExtOutputChannel;
+
 	export let context: ExtensionContext;
+
 	export let ignoreBundle: boolean | undefined;
+
 	export let fileSystem: AppServiceFileSystem;
+
 	export const prefix: string = "appService";
 
 	export let azureAccountTreeItem: AzureAccountTreeItem;
+
 	export let experimentationService: IExperimentationServiceAdapter;
+
 	export let rgApi: AzureHostExtensionApi;
 }

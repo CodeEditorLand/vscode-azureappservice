@@ -47,6 +47,7 @@ export class WebJobsTreeItem extends AzExtParentTreeItem {
 		context: IActionContext,
 	): Promise<AzExtTreeItem[]> {
 		const client = await this.parent.site.createClient(context);
+
 		return (await client.listWebJobs()).map((job) => {
 			return new GenericTreeItem(this, {
 				id: job.name,
