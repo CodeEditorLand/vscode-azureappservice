@@ -18,6 +18,7 @@ import { NotAvailableTreeItem } from "./NotAvailableTreeItem";
 import { type SiteTreeItem } from "./SiteTreeItem";
 
 const label: string = localize("webJobs", "WebJobs");
+
 export class WebJobsTreeItem extends AzExtParentTreeItem {
 	public static contextValue: string = "webJobs";
 	public readonly label: string = label;

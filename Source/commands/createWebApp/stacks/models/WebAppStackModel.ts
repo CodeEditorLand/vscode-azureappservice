@@ -17,6 +17,7 @@ export type WebAppStack = AppStack<
 	WebAppRuntimes & JavaContainers,
 	WebAppStackValue
 >;
+
 export type WebAppStackValue =
 	| "dotnet"
 	| "java"

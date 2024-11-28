@@ -35,10 +35,12 @@ import {
 export async function getStackPicks(
 	context: IWebAppWizardContext,
 ): Promise<IAzureQuickPickItem<FullWebAppStack>[]>;
+
 export async function getStackPicks(
 	context: IWebAppWizardContext,
 	javaVersion: string,
 ): Promise<IAzureQuickPickItem<FullJavaStack>[]>;
+
 export async function getStackPicks(
 	context: IWebAppWizardContext,
 	javaVersion?: string,

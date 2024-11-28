@@ -26,6 +26,7 @@ import { NotAvailableTreeItem } from "./NotAvailableTreeItem";
 import { SiteTreeItem } from "./SiteTreeItem";
 
 const label: string = localize("deploymentSlots", "Deployment Slots");
+
 export class DeploymentSlotsTreeItem extends AzExtParentTreeItem {
 	public static contextValue: string = "deploymentSlots";
 	public readonly contextValue: string = DeploymentSlotsTreeItem.contextValue;

@@ -15,13 +15,21 @@
 // The tests should import '../extension.bundle'. At design-time they live in tests/ and so will pick up this file (extension.bundle.ts).
 // At runtime the tests live in dist/tests and will therefore pick up the main webpack bundle at dist/extension.bundle.js.
 export { createGenericClient } from "@microsoft/vscode-azext-azureutils";
+
 export * from "@microsoft/vscode-azext-utils";
+
 export * from "./src/commands/appSettings/addAppSetting";
+
 export * from "./src/commands/appSettings/deleteAppSettings";
+
 export * from "./src/commands/createWebApp/createWebApp";
+
 export * from "./src/commands/deleteWebApp";
+
 export * from "./src/commands/deploy/deploy";
+
 export * from "./src/commands/deployments/editScmType";
+
 export {
 	ColumnName,
 	detectorResponseJSON,
@@ -29,19 +37,28 @@ export {
 	getLinuxDetectorError,
 	validateTimestamp,
 } from "./src/commands/postDeploy/getLinuxDetectorError";
+
 export {
 	findTableByName,
 	getValuesByColumnName,
 } from "./src/commands/postDeploy/parseDetectorResponse";
+
 export { getRemoteDebugLanguage } from "./src/commands/remoteDebug/getRemoteDebugLanguage";
+
 export * as constants from "./src/constants";
 // Export activate/deactivate for main.js
 export { activateInternal, deactivateInternal } from "./src/extension";
+
 export { ext } from "./src/extensionVariables";
+
 export { AzureAccountTreeItem } from "./src/tree/AzureAccountTreeItem";
+
 export { SiteTreeItem } from "./src/tree/SiteTreeItem";
+
 export * from "./src/utils/azureClients";
+
 export { getRandomHexString } from "./src/utils/randomUtils";
+
 export {
 	getGlobalSetting,
 	updateGlobalSetting,
