@@ -40,6 +40,7 @@ export async function uploadAppSettings(
 			"selectEnv",
 			"Select the local .env file to upload.",
 		);
+
 		envPath = await workspaceUtil.selectWorkspaceFile(
 			context,
 			message,
@@ -55,8 +56,10 @@ export async function uploadAppSettings(
 			),
 		});
 	}
+
 	const client: IAppSettingsClient =
 		await node.clientProvider.createClient(context);
+
 	await node.runWithTemporaryDescription(
 		context,
 		localize(
@@ -82,6 +85,7 @@ export async function uploadAppSettings(
 					remoteSettings.properties,
 					client.fullName,
 				);
+
 				await client.updateApplicationSettings(remoteSettings);
 			} else {
 				throw new Error(

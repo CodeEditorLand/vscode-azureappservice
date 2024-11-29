@@ -26,5 +26,6 @@ export async function viewCommitInGitHub(
 			},
 		);
 	}
+
 	await node.viewCommitInGitHub(context);
 }

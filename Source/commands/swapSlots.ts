@@ -30,6 +30,7 @@ export async function swapSlots(
 	const existingSlots: SiteTreeItem[] = <SiteTreeItem[]>(
 		await sourceSlotNode.parent?.getCachedChildren(context)
 	);
+
 	await appservice.swapSlot(
 		context,
 		sourceSlotNode.site,

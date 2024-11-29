@@ -19,13 +19,17 @@ import {
 
 export type FullWebAppStack = {
 	stack: WebAppStack;
+
 	majorVersion: AppStackMajorVersion<WebAppRuntimes>;
+
 	minorVersion: AppStackMinorVersion<WebAppRuntimes>;
 };
 
 export type FullJavaStack = {
 	stack: WebAppStack;
+
 	majorVersion: AppStackMajorVersion<JavaContainers>;
+
 	minorVersion: AppStackMinorVersion<JavaContainers>;
 };
 
@@ -43,5 +47,6 @@ export interface IWebAppWizardContext
 	recommendedSiteRuntime?: WebAppStackValue[];
 
 	newSiteStack?: FullWebAppStack;
+
 	newSiteJavaStack?: FullJavaStack;
 }

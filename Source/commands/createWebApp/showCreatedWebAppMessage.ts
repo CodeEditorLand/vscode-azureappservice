@@ -34,6 +34,7 @@ export function showCreatedWebAppMessage(
 				"postCreateWebApp",
 				async (context: IActionContext) => {
 					context.valuesToMask.push(...originalContext.valuesToMask);
+
 					context.telemetry.properties.dialogResult = result?.title;
 
 					if (result === AppServiceDialogResponses.viewOutput) {

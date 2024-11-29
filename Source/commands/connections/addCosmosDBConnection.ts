@@ -35,6 +35,8 @@ export async function addCosmosDBConnection(
 	} else {
 		cosmosDBTreeItem = nonNullProp(node, "parent");
 	}
+
 	await cosmosDBTreeItem.createChild(context);
+
 	await ext.rgApi.tree.refresh(context, cosmosDBTreeItem);
 }

@@ -201,16 +201,20 @@ async function getStacks(
 					),
 				}),
 			);
+
 			stacksArmResponse = <StacksArmResponse>result.parsedBody;
+
 			context.usingBackupStacks = false;
 		} catch (error) {
 			// Some environments (like Azure Germany/Mooncake) don't support the stacks ARM API yet
 			// And since the stacks don't change _that_ often, we'll just use a backup hard-coded value
 			stacksArmResponse = <StacksArmResponse>JSON.parse(backupStacks);
+
 			context.telemetry.properties.getStacksError = maskUserInfo(
 				parseError(error).message,
 				[],
 			);
+
 			context.usingBackupStacks = true;
 		}
 
@@ -234,5 +238,6 @@ function sortStacks(
 
 		return index === -1 ? recommendedRuntimes.length : index;
 	}
+
 	return stacks.sort((s1, s2) => getPriority(s1) - getPriority(s2));
 }

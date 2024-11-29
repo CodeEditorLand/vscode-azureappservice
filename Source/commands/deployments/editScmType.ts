@@ -35,5 +35,6 @@ export async function editScmType(
 		newScmType,
 		showToast,
 	);
+
 	await node.deploymentsNode?.refresh(context);
 }

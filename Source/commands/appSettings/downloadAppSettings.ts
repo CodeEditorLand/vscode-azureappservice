@@ -86,6 +86,7 @@ export async function downloadAppSettings(
 			}
 
 			await fse.ensureFile(envVarPath);
+
 			await fse.writeFile(
 				envVarPath,
 				convertAppSettingsToEnvVariables(
@@ -109,8 +110,10 @@ export async function downloadAppSettings(
 			if (!input) {
 				throw new UserCancelledError();
 			}
+
 			const doc: vscode.TextDocument =
 				await vscode.workspace.openTextDocument(envVarUri);
+
 			await vscode.window.showTextDocument(doc);
 		});
 }
@@ -128,7 +131,9 @@ export function convertAppSettingsToEnvVariables(
 
 	for (const property of Object.keys(appSettings)) {
 		envData += `${property}="${appSettings[property]}"`;
+
 		envData += os.EOL;
 	}
+
 	return envData;
 }

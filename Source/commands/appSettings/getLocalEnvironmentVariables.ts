@@ -41,5 +41,6 @@ export async function getLocalEnvironmentVariables(
 			}
 		}
 	}
+
 	return {};
 }

@@ -23,8 +23,11 @@ import { pickWebApp } from "../utils/pickWebApp";
 
 export type sshTerminal = {
 	starting: boolean;
+
 	terminal: vscode.Terminal | undefined;
+
 	tunnel: TunnelProxy | undefined;
+
 	localPort: number | undefined;
 };
 
@@ -81,6 +84,7 @@ export async function startSsh(
 			tunnel: undefined,
 			localPort: undefined,
 		});
+
 		await startSshInternal(context, node);
 	} catch (error) {
 		sshSessionsMap.delete(node.site.fullName);
@@ -146,6 +150,7 @@ async function startSshInternal(
 				node.subscription.credentials,
 				true,
 			);
+
 			await tunnelProxy.startProxy(context, token);
 
 			reportMessage(
@@ -153,6 +158,7 @@ async function startSshInternal(
 				progress,
 				token,
 			);
+
 			connectToTunnelProxy(node, tunnelProxy, localHostPortNumber);
 		},
 	);
@@ -174,6 +180,7 @@ function connectToTunnelProxy(
 		vscode.window.terminals.find((activeTerminal: vscode.Terminal) => {
 			return activeTerminal.name === sshTerminalName;
 		}) || vscode.window.createTerminal(sshTerminalName);
+
 	terminal.sendText(sshCommand, true);
 
 	// The default password for logging into the container (after you have SSHed in) is Docker!
@@ -189,6 +196,7 @@ function connectToTunnelProxy(
 	);
 
 	terminal.show();
+
 	ext.context.subscriptions.push(terminal);
 
 	sshSessionsMap.set(node.site.fullName, {
@@ -209,6 +217,7 @@ function connectToTunnelProxy(
 				}
 
 				sshSessionsMap.delete(node.site.fullName);
+
 				ext.outputChannel.appendLog(
 					localize(
 						"sshDisconnected",

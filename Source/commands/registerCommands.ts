@@ -65,97 +65,124 @@ export function registerCommands(): void {
 		"appService.AddAzureDatabasesConnection",
 		addCosmosDBConnection,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"appService.appSettings.Add",
 		addAppSetting,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"appService.appSettings.Delete",
 		deleteAppSetting,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"appService.appSettings.Download",
 		downloadAppSettings,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"appService.appSettings.Edit",
 		editAppSetting,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"appService.appSettings.Rename",
 		renameAppSetting,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"appService.appSettings.ToggleSlotSetting",
 		toggleSlotSetting,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"appService.appSettings.Upload",
 		uploadAppSettings,
 	);
+
 	registerCommandWithTreeNodeUnwrapping("appService.Browse", browseWebsite);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"appService.ConfigureDeploymentSource",
 		editScmType,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"appService.connectToGitHub",
 		connectToGitHub,
 	);
+
 	registerCommandWithTreeNodeUnwrapping("appService.CreateSlot", createSlot);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"appService.CreateWebApp",
 		createWebApp,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"appService.CreateWebAppAdvanced",
 		createWebAppAdvanced,
 	);
+
 	registerCommandWithTreeNodeUnwrapping("appService.Delete", deleteWebApp);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"appService.DeploymentScript",
 		generateDeploymentScript,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"appService.DisconnectRepo",
 		disconnectRepo,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"appService.EnableFileLogging",
 		enableFileLogging,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"appService.InstallCosmosDBExtension",
 		installCosmosDBExtension,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"appService.LoadMore",
 		async (actionContext: IActionContext, node?: AzExtTreeItem) =>
 			await ext.rgApi.tree.loadMore(nonNullValue(node), actionContext),
 	);
+
 	registerCommandWithTreeNodeUnwrapping("appService.openFile", showFile, 500);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"appService.OpenInPortal",
 		openInPortal,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"appService.Refresh",
 		async (actionContext: IActionContext, node?: AzExtTreeItem) =>
 			await ext.rgApi.tree.refresh(actionContext, node),
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"appService.RemoveCosmosDBConnection",
 		removeCosmosDBConnection,
 	);
+
 	registerCommandWithTreeNodeUnwrapping("appService.Restart", restartWebApp);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"appService.RevealConnection",
 		revealConnection,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"appService.RevealConnectionInAppSettings",
 		revealConnectionInAppSettings,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"appService.ScaleUp",
 		async (
@@ -167,28 +194,37 @@ export function registerCommands(): void {
 				nonNullValue(node).scaleUpId,
 			),
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"appService.showOutputChannel",
 		() => {
 			ext.outputChannel.show();
 		},
 	);
+
 	registerCommandWithTreeNodeUnwrapping("appService.Start", startWebApp);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"appService.StartRemoteDebug",
 		startRemoteDebug,
 	);
+
 	registerCommandWithTreeNodeUnwrapping("appService.StartSsh", startSsh);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"appService.startStreamingLogs",
 		startStreamingLogs,
 	);
+
 	registerCommandWithTreeNodeUnwrapping("appService.Stop", stopWebApp);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"appService.StopLogStream",
 		stopStreamingLogs,
 	);
+
 	registerCommandWithTreeNodeUnwrapping("appService.SwapSlots", swapSlots);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"appService.toggleAppSettingVisibility",
 		async (actionContext: IActionContext, node?: AppSettingTreeItem) => {
@@ -196,26 +232,32 @@ export function registerCommands(): void {
 		},
 		250,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"appService.ViewCommitInGitHub",
 		viewCommitInGitHub,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"appService.ViewProperties",
 		viewProperties,
 	);
+
 	registerSiteCommand(
 		"appService.Deploy",
 		unwrapTreeNodeCommandCallback(deploy),
 	);
+
 	registerSiteCommand(
 		"appService.DeploySlot",
 		unwrapTreeNodeCommandCallback(deploySlot),
 	);
+
 	registerSiteCommand(
 		"appService.Redeploy",
 		unwrapTreeNodeCommandCallback(redeployDeployment),
 	);
+
 	registerSiteCommand(
 		"appService.viewDeploymentLogs",
 		unwrapTreeNodeCommandCallback(viewDeploymentLogs),

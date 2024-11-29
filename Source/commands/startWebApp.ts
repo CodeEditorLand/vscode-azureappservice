@@ -29,12 +29,15 @@ export async function startWebApp(
 	);
 
 	const client = await node.site.createClient(context);
+
 	await node.runWithTemporaryDescription(
 		context,
 		localize("starting", "Starting..."),
 		async () => {
 			ext.outputChannel.appendLog(startingApp);
+
 			await client.start();
+
 			ext.outputChannel.appendLog(startedApp);
 		},
 	);

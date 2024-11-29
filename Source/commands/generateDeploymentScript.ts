@@ -58,6 +58,7 @@ export async function generateDeploymentScript(
 			if (!siteConfig.linuxFxVersion) {
 				const scriptTemplate =
 					await loadScriptTemplate("windows-default.sh");
+
 				script = scriptTemplate;
 			} else if (
 				siteConfig.linuxFxVersion.toLowerCase().startsWith("docker")
@@ -74,11 +75,14 @@ export async function generateDeploymentScript(
 				if (appSettings.properties) {
 					serverUrl =
 						appSettings.properties.DOCKER_REGISTRY_SERVER_URL;
+
 					serverUser =
 						appSettings.properties.DOCKER_REGISTRY_SERVER_USERNAME;
+
 					serverPwd =
 						appSettings.properties.DOCKER_REGISTRY_SERVER_PASSWORD;
 				}
+
 				const containerParameters =
 					(serverUrl ? `SERVERURL="${serverUrl}"\n` : "") +
 					(serverUser ? `SERVERUSER="${serverUser}"\n` : "") +
@@ -94,6 +98,7 @@ export async function generateDeploymentScript(
 					(serverPwd
 						? "--docker-registry-server-password $SERVERPASSWORD "
 						: "");
+
 				script = scriptTemplate
 					.replace("%RUNTIME%", siteConfig.linuxFxVersion)
 					.replace(
@@ -108,6 +113,7 @@ export async function generateDeploymentScript(
 				// Stock linux image
 				const scriptTemplate =
 					await loadScriptTemplate("linux-default.sh");
+
 				script = scriptTemplate.replace(
 					"%RUNTIME%",
 					siteConfig.linuxFxVersion,
@@ -131,6 +137,7 @@ export async function generateDeploymentScript(
 				language: "shellscript",
 				content: script,
 			});
+
 			await window.showTextDocument(doc);
 		},
 	);

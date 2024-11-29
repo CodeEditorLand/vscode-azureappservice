@@ -22,5 +22,6 @@ export async function viewDeploymentLogs(
 			},
 		);
 	}
+
 	await node.viewDeploymentLogs(context);
 }

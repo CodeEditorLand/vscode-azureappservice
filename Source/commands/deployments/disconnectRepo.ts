@@ -36,6 +36,7 @@ export async function disconnectRepo(
 			node.parent.site,
 			node.subscription,
 		);
+
 		await ext.rgApi.appResourceTree.refresh(context, node.parent);
 	} else {
 		throw new OperationNotSupportedError(context);

@@ -73,6 +73,7 @@ export namespace javaUtils {
 				}
 			}
 		}
+
 		return false;
 	}
 
@@ -104,6 +105,7 @@ export namespace javaUtils {
 			if (await isJavaFolder(workspaceFolder.uri.fsPath)) {
 				continue;
 			}
+
 			return false;
 		}
 
@@ -152,6 +154,7 @@ export namespace javaUtils {
 		if (!port) {
 			throw new UserCancelledError("javaPort");
 		}
+
 		appSettings.properties[PORT_KEY] = port;
 
 		return client.updateApplicationSettings(appSettings);

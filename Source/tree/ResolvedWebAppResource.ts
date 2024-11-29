@@ -70,34 +70,47 @@ export class ResolvedWebAppResource
 	public site: ParsedSite;
 
 	public static instance = "resolvedWebApp";
+
 	public readonly instance = ResolvedWebAppResource.instance;
 
 	public contextValuesToAdd?: string[] | undefined;
+
 	public maskedValuesToAdd: string[] = [];
 
 	public static webAppContextValue: string = "azAppWebApp";
+
 	public static slotContextValue: string = "azAppSlot";
 
 	commandId?: string | undefined;
+
 	tooltip?: string | undefined;
+
 	commandArgs?: unknown[] | undefined;
 
 	public deploymentSlotsNode:
 		| DeploymentSlotsTreeItem
 		| DeploymentSlotsNATreeItem
 		| undefined;
+
 	public deploymentsNode: DeploymentsTreeItem | undefined;
+
 	public appSettingsNode!: AppSettingsTreeItem;
+
 	private _connectionsNode!: CosmosDBTreeItem;
+
 	private _siteFilesNode!: SiteFilesTreeItem;
+
 	private _logFilesNode!: LogFilesTreeItem;
+
 	private _webJobsNode!: WebJobsTreeItem | WebJobsNATreeItem;
 
 	private _subscription: ISubscriptionContext;
 
 	constructor(subscription: ISubscriptionContext, site: Site) {
 		this.site = new ParsedSite(site, subscription);
+
 		this._subscription = subscription;
+
 		this.contextValuesToAdd = [
 			this.site.isSlot
 				? ResolvedWebAppResource.slotContextValue
@@ -156,6 +169,7 @@ export class ResolvedWebAppResource
 
 	public async refreshImpl(context: IActionContext): Promise<void> {
 		const client = await this.site.createClient(context);
+
 		this.site = new ParsedSite(
 			nonNullValue(await client.getSite(), "site"),
 			this._subscription,
@@ -202,12 +216,15 @@ export class ResolvedWebAppResource
 				contextValuesToAdd: ["appService"],
 			},
 		);
+
 		this._connectionsNode = new CosmosDBTreeItem(proxyTree, this.site);
+
 		this._siteFilesNode = new SiteFilesTreeItem(proxyTree, {
 			site: this.site,
 			isReadOnly: false,
 			contextValuesToAdd: ["appService"],
 		});
+
 		this._logFilesNode = new LogFilesTreeItem(proxyTree, {
 			site: this.site,
 			contextValuesToAdd: ["appService"],
@@ -223,6 +240,7 @@ export class ResolvedWebAppResource
 
 		const sourceControl: SiteSourceControl =
 			await client.getSourceControl();
+
 		this.deploymentsNode = new DeploymentsTreeItem(proxyTree, {
 			site: this.site,
 			siteConfig,
@@ -246,7 +264,9 @@ export class ResolvedWebAppResource
 
 			try {
 				const client = await this.site.createClient(context);
+
 				asp = await client.getAppServicePlan();
+
 				tier = asp && asp.sku && asp.sku.tier;
 			} catch (err) {
 				// ignore this error, we don't want to block users for deployment slots
@@ -260,6 +280,7 @@ export class ResolvedWebAppResource
 							nonNullProp(nonNullValue(asp), "id"),
 						)
 					: new DeploymentSlotsTreeItem(proxyTree);
+
 			children.push(this.deploymentSlotsNode);
 		}
 
@@ -306,6 +327,7 @@ export class ResolvedWebAppResource
 				) {
 					return this.appSettingsNode;
 				}
+
 				const deploymentsContextValues = [
 					githubCommitContextValueRegExp,
 					DeploymentsTreeItem.contextValueConnected,
@@ -321,6 +343,7 @@ export class ResolvedWebAppResource
 				) {
 					return this.deploymentsNode;
 				}
+
 				const slotsContextValues = [
 					DeploymentSlotsTreeItem.contextValue,
 					ResolvedWebAppResource.slotContextValue,
@@ -331,6 +354,7 @@ export class ResolvedWebAppResource
 				) {
 					return this.deploymentSlotsNode;
 				}
+
 				if (
 					matchContextValue(expectedContextValue, [
 						FolderTreeItem.contextValue,
@@ -400,6 +424,7 @@ export class ResolvedWebAppResource
 		});
 
 		await wizard.prompt();
+
 		await wizard.execute();
 	}
 
@@ -425,6 +450,7 @@ export class ResolvedWebAppResource
 				},
 			};
 		}
+
 		logsConfig.httpLogs = {
 			fileSystem: {
 				enabled: true,
@@ -434,6 +460,7 @@ export class ResolvedWebAppResource
 		};
 
 		const client = await this.site.createClient(context);
+
 		await client.updateLogsConfig(logsConfig);
 	}
 }

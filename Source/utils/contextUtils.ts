@@ -12,6 +12,7 @@ export function matchContextValue(
 			if (expectedValue instanceof RegExp) {
 				return contextValue.toString() === expectedValue.toString();
 			}
+
 			return contextValue.test(expectedValue);
 		});
 	} else {
@@ -19,6 +20,7 @@ export function matchContextValue(
 			if (expectedValue instanceof RegExp) {
 				return expectedValue.test(contextValue);
 			}
+
 			return contextValue === expectedValue;
 		});
 	}

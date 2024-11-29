@@ -15,6 +15,7 @@ export async function tryGetCsprojFile(
 	// it's a common pattern to have the .csproj file in a subfolder so check one level deeper
 	if (projectFiles.length === 0) {
 		const subfolders: string[] = await fse.readdir(projectPath);
+
 		await Promise.all(
 			subfolders.map(async (folder) => {
 				const filePath: string = path.join(projectPath, folder);
@@ -26,6 +27,7 @@ export async function tryGetCsprojFile(
 					projectFiles.push(
 						...(await checkFolderForCsproj(filePath)),
 					);
+
 					context.telemetry.properties.csprojInSubfolder = "true";
 				}
 			}),

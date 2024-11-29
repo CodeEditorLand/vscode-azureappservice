@@ -53,6 +53,7 @@ export async function promptToSaveDeployDefaults(
 
 		if (result === DialogResponses.yes) {
 			await saveDeployDefaults(node.fullId, workspacePath, deployPath);
+
 			context.telemetry.properties.promptToSaveDeployConfigs = "Yes";
 		} else if (result === dontShowAgain) {
 			await updateWorkspaceSetting(
@@ -60,6 +61,7 @@ export async function promptToSaveDeployDefaults(
 				constants.none,
 				deployPath,
 			);
+
 			context.telemetry.properties.promptToSaveDeployConfigs =
 				"Don't show again";
 		} else {
@@ -86,6 +88,7 @@ export async function saveDeployDefaults(
 	);
 
 	const subPath: string = path.relative(workspacePath, deployPath) || ".";
+
 	await updateWorkspaceSetting(
 		constants.configurationSettings.deploySubpath,
 		subPath,

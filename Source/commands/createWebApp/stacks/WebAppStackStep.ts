@@ -24,6 +24,7 @@ export class WebAppStackStep extends AzureWizardPromptStep<IWebAppWizardContext>
 			"selectRuntimeStack",
 			"Select a runtime stack.",
 		);
+
 		context.newSiteStack = (
 			await context.ui.showQuickPick(getStackPicks(context), {
 				placeHolder,

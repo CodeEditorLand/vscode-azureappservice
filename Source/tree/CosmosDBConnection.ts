@@ -22,8 +22,11 @@ import { type CosmosDBTreeItem } from "./CosmosDBTreeItem";
 
 export class CosmosDBConnection extends AzExtTreeItem {
 	public static contextValue: string = "cosmosDBConnection";
+
 	public readonly contextValue: string = CosmosDBConnection.contextValue;
+
 	public readonly label: string;
+
 	public readonly parent!: CosmosDBTreeItem;
 
 	constructor(
@@ -34,6 +37,7 @@ export class CosmosDBConnection extends AzExtTreeItem {
 		readonly appSettingKeys: string[],
 	) {
 		super(parent);
+
 		this.label = CosmosDBConnection.makeLabel(cosmosExtensionItem);
 	}
 
@@ -92,7 +96,9 @@ export class CosmosDBConnection extends AzExtTreeItem {
 			for (const key of this.appSettingKeys) {
 				delete appSettings.properties[key];
 			}
+
 			await appSettingsClient.updateApplicationSettings(appSettings);
+
 			await this.parent.parent.appSettingsNode.refresh(context);
 		}
 	}

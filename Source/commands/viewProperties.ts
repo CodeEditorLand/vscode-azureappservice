@@ -19,6 +19,7 @@ export async function viewProperties(
 	const node = nonNullValue(treeItem);
 
 	const client = await node.site.createClient(context);
+
 	await node.runWithTemporaryDescription(
 		context,
 		localize("retrievingProps", "Retrieving properties..."),

@@ -29,10 +29,15 @@ const label: string = localize("deploymentSlots", "Deployment Slots");
 
 export class DeploymentSlotsTreeItem extends AzExtParentTreeItem {
 	public static contextValue: string = "deploymentSlots";
+
 	public readonly contextValue: string = DeploymentSlotsTreeItem.contextValue;
+
 	public readonly label: string = label;
+
 	public readonly childTypeLabel: string = "Deployment Slot";
+
 	public suppressMaskLabel = true;
+
 	public parent!: SiteTreeItem;
 
 	private _nextLink: string | undefined;
@@ -90,6 +95,7 @@ export class DeploymentSlotsTreeItem extends AzExtParentTreeItem {
 		);
 
 		const site = new ParsedSite(rawSite, this.subscription);
+
 		ext.outputChannel.appendLog(getCreatedWebAppMessage(site));
 
 		return new SiteTreeItem(this, rawSite);
@@ -98,37 +104,49 @@ export class DeploymentSlotsTreeItem extends AzExtParentTreeItem {
 
 export class ScaleUpTreeItem extends AzExtTreeItem {
 	public static contextValue: string = "ScaleUp";
+
 	public readonly label: string = localize(
 		"scaleUp",
 		"Scale up to a production plan to enable slots...",
 	);
+
 	public readonly contextValue: string = ScaleUpTreeItem.contextValue;
+
 	public readonly scaleUpId: string;
 
 	public constructor(parent: AzExtParentTreeItem, scaleUpId: string) {
 		super(parent);
+
 		this.scaleUpId = scaleUpId;
+
 		this.commandId = "appService.ScaleUp";
 	}
 }
 
 export class DeploymentSlotsNATreeItem extends NotAvailableTreeItem {
 	public static contextValue: string = "deploymentNASlots";
+
 	public readonly label: string;
+
 	public readonly contextValue: string =
 		DeploymentSlotsNATreeItem.contextValue;
+
 	public readonly childTypeLabel: string = localize(
 		"scaleUpToEnable",
 		"scale up to enable slots",
 	);
+
 	public suppressMaskLabel = true;
 
 	public readonly scaleUpId: string;
 
 	public constructor(parent: AzExtParentTreeItem, planId: string) {
 		super(parent);
+
 		this.label = label;
+
 		this.id = DeploymentSlotsNATreeItem.contextValue;
+
 		this.scaleUpId = `${planId}/pricingTier`;
 	}
 

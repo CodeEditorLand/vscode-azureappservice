@@ -36,7 +36,9 @@ export async function checkLinuxWebAppDownDetector(
 		"linuxWebAppDownDetector",
 		async (context: IActionContext): Promise<void> => {
 			context.errorHandling.suppressDisplay = true;
+
 			context.valuesToMask.push(...originalContext.valuesToMask);
+
 			context.telemetry.properties.correlationId = correlationId;
 
 			const kuduClient = await node.site.createClient(context);
@@ -118,7 +120,9 @@ export async function checkLinuxWebAppDownDetector(
 							context2.valuesToMask.push(
 								...originalContext.valuesToMask,
 							);
+
 							context2.telemetry.properties.viewed = "true";
+
 							await openInPortal(
 								node.subscription,
 								`${node.site.id}/troubleshoot`,

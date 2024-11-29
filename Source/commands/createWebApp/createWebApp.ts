@@ -92,28 +92,41 @@ export async function createWebApp(
 	const executeSteps: AzureWizardExecuteStep<IWebAppWizardContext>[] = [];
 
 	const siteStep: SiteNameStep = new SiteNameStep();
+
 	promptSteps.push(siteStep);
 
 	if (context.advancedCreation) {
 		promptSteps.push(new ResourceGroupListStep());
+
 		promptSteps.push(new WebAppStackStep());
+
 		CustomLocationListStep.addStep(wizardContext, promptSteps);
+
 		promptSteps.push(new AppServicePlanListStep());
+
 		promptSteps.push(new AppInsightsListStep());
 	} else {
 		promptSteps.push(new WebAppStackStep());
+
 		promptSteps.push(new AppServicePlanSkuStep());
+
 		LocationListStep.addStep(wizardContext, promptSteps);
+
 		executeSteps.push(new ResourceGroupCreateStep());
+
 		executeSteps.push(new AppServicePlanCreateStep());
+
 		executeSteps.push(new AppInsightsCreateStep());
+
 		executeSteps.push(new SetPostPromptDefaultsStep(siteStep));
 	}
 
 	executeSteps.push(
 		new VerifyProvidersStep([webProvider, "Microsoft.Insights"]),
 	);
+
 	executeSteps.push(new LogAnalyticsCreateStep());
+
 	executeSteps.push(new WebAppCreateStep());
 
 	if (wizardContext.newSiteOS !== undefined) {
@@ -138,11 +151,13 @@ export async function createWebApp(
 	);
 
 	await wizard.execute();
+
 	await ext.rgApi.appResourceTree.refresh(context);
 
 	const rawSite = nonNullProp(wizardContext, "site");
 	// site is set as a result of SiteCreateStep.execute()
 	const site = new ParsedSite(rawSite, wizardContext);
+
 	ext.outputChannel.appendLog(getCreatedWebAppMessage(site));
 
 	const newNode: SiteTreeItem = new SiteTreeItem(node, rawSite);
@@ -161,6 +176,7 @@ export async function createWebApp(
 	if (!suppressCreatedWebAppMessage) {
 		showCreatedWebAppMessage(context, newNode);
 	}
+
 	return newNode;
 }
 

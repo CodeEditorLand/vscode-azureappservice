@@ -17,7 +17,9 @@ import { createWebSiteClient } from "./utils/azureClients";
 
 export class WebAppResolver implements AppResourceResolver {
 	private siteCacheLastUpdated = 0;
+
 	private siteCache: Map<string, Site> = new Map<string, Site>();
+
 	private listWebAppsTask: Promise<void> | undefined;
 
 	public async resolveResource(
@@ -34,8 +36,10 @@ export class WebAppResolver implements AppResourceResolver {
 
 				if (this.siteCacheLastUpdated < Date.now() - 1000 * 3) {
 					this.siteCacheLastUpdated = Date.now();
+
 					this.listWebAppsTask = new Promise((resolve, reject) => {
 						this.siteCache.clear();
+
 						uiUtils
 							.listAllIterator(client.webApps.list())
 							.then((sites) => {
@@ -45,6 +49,7 @@ export class WebAppResolver implements AppResourceResolver {
 										site,
 									);
 								}
+
 								resolve();
 							})
 							.catch((reason) => {

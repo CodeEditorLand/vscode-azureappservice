@@ -53,6 +53,7 @@ export async function setPostPromptDefaults(
 	if (config.location) {
 		await LocationListStep.setLocation(wizardContext, config.location);
 	}
+
 	const location: AzExtLocation =
 		await LocationListStep.getLocation(wizardContext);
 
@@ -69,6 +70,7 @@ export async function setPostPromptDefaults(
 
 		defaultName += `_${simpleTierName}`;
 	}
+
 	const defaultGroupName: string = config.group || defaultName;
 
 	const defaultPlanName: string = defaultName;
@@ -93,7 +95,9 @@ export async function setPostPromptDefaults(
 				hasPerfDrop
 			) {
 				await promptPerformanceWarning(wizardContext, asp);
+
 				wizardContext.newResourceGroupName = defaultGroupName;
+
 				wizardContext.newPlanName = defaultPlanName;
 			} else {
 				// Check if there are plans prefixed with default name that match the tier and don't have a performance drop. If so, use that plan. Otherwise, create a new rg and asp using `getRelatedName`
@@ -134,6 +138,7 @@ export async function setPostPromptDefaults(
 							!checkPlanForPerformanceDrop(fullPlanData)
 						) {
 							wizardContext.newResourceGroupName = groupName;
+
 							wizardContext.newPlanName = plan.name;
 
 							break;
@@ -173,12 +178,14 @@ export async function setPostPromptDefaults(
 			}
 		} else {
 			wizardContext.newResourceGroupName = defaultGroupName;
+
 			wizardContext.newPlanName = defaultPlanName;
 		}
 	} catch (error) {
 		if (parseError(error).errorType === "AuthorizationFailed") {
 			// User has restricted permissions for something. We'll use the default values for now and let the  `ResourceGroupCreateStep` & `AppServicePlanCreateStep` handle the 'AuthorizationFailed' error down the line
 			wizardContext.newResourceGroupName = defaultGroupName;
+
 			wizardContext.newPlanName = defaultPlanName;
 		} else {
 			throw error;
@@ -249,6 +256,7 @@ async function promptPerformanceWarning(
 
 		if (input === DialogResponses.dontWarnAgain) {
 			context.telemetry.properties.turnOffPerfWarning = "true";
+
 			await updateGlobalSetting(showPlanPerformanceWarningSetting, false);
 		}
 	}

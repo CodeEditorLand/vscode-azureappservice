@@ -10,15 +10,21 @@ import * as fse from "fs-extra";
 
 type MavenModule = {
 	path: string;
+
 	artifactId: string;
+
 	artifactFinalName: string;
 };
 type MavenPom = {
 	project: {
 		parent?: { version?: string };
+
 		artifactId: string;
+
 		version?: string;
+
 		packaging?: string;
+
 		build?: { finalName?: string };
 	};
 };
@@ -36,6 +42,7 @@ export async function tryGetMavenModule(
 	) {
 		return getMavenModuleFromPom(pomFile);
 	}
+
 	return undefined;
 }
 
@@ -69,5 +76,6 @@ async function getMavenModuleFromPom(
 	} catch (e) {
 		return undefined;
 	}
+
 	return undefined;
 }

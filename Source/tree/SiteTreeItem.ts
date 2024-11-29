@@ -23,16 +23,21 @@ import { ResolvedWebAppResource } from "./ResolvedWebAppResource";
 
 export class SiteTreeItem extends AzExtParentTreeItem implements ISiteTreeItem {
 	public contextValue: string = "azAppSlot";
+
 	public resolved: ResolvedWebAppResource;
 
 	public appSettingsNode!: AppSettingsTreeItem;
+
 	public deploymentsNode: DeploymentsTreeItem | undefined;
 
 	public treeDataProvider: AzExtTreeDataProvider;
+
 	public constructor(parent: AzExtParentTreeItem, site: Site) {
 		super(parent);
+
 		this.treeDataProvider =
 			parent.treeDataProvider ?? ext.rgApi.appResourceTree;
+
 		this.resolved = new ResolvedWebAppResource(parent.subscription, site);
 	}
 

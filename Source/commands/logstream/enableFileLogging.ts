@@ -70,6 +70,7 @@ export async function enableFileLogging(
 			'Enabled Logging for "{0}".',
 			siteNode.site.fullName,
 		);
+
 		await vscode.window.withProgress(
 			{
 				location: vscode.ProgressLocation.Notification,
@@ -77,13 +78,16 @@ export async function enableFileLogging(
 			},
 			async (): Promise<void> => {
 				ext.outputChannel.appendLog(enablingLogging);
+
 				await siteNode.enableLogs(context);
 
 				await vscode.commands.executeCommand(
 					"appService.Restart",
 					siteNode,
 				);
+
 				void vscode.window.showInformationMessage(enabledLogging);
+
 				ext.outputChannel.appendLog(enabledLogging);
 			},
 		);

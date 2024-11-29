@@ -21,6 +21,7 @@ export async function installExtension(
 	const maxTime: number = Date.now() + timeoutInSeconds * 1000;
 
 	const commandToRun: string = "extension.open";
+
 	await commands.executeCommand(commandToRun, extensionId);
 
 	while (Date.now() < maxTime) {
@@ -30,5 +31,6 @@ export async function installExtension(
 
 		await delay(5000);
 	}
+
 	return false;
 }

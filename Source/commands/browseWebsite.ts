@@ -13,5 +13,6 @@ export async function browseWebsite(
 	node?: ISiteTreeItem,
 ): Promise<void> {
 	node ??= await pickWebApp(context);
+
 	await node.browse();
 }

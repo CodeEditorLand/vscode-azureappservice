@@ -24,6 +24,7 @@ import { SiteTreeItem } from "./SiteTreeItem";
  */
 export class SubscriptionTreeItem extends SubscriptionTreeItemBase {
 	public readonly childTypeLabel: string = localize("webApp", "Web App");
+
 	public supportsAdvancedCreation: boolean = true;
 
 	private _nextLink: string | undefined;

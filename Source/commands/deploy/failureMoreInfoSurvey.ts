@@ -29,35 +29,46 @@ function shouldPromptForSurvey(
 		if (msg.includes("the service is unavailable")) {
 			return "python-serviceunavailable";
 		}
+
 		if (msg.includes("unknown error")) {
 			return "python-unknown";
 		}
+
 		if (/exceeded the limit.+free tier/.test(msg)) {
 			return "python-freetierlimit";
 		}
+
 		if (msg.includes("oryx")) {
 			return "python-oryx";
 		}
+
 		if (/deployment.+in progress.+try again/.test(msg)) {
 			return "python-alreadydeploying";
 		}
+
 		if (/deployment.+not found/.test(msg)) {
 			return "python-notfound";
 		}
+
 		if (msg.includes("central directory corrupt")) {
 			return "python-centraldircorrupt";
 		}
+
 		if (msg.includes("entry not found in cache")) {
 			return "python-entrynotfoundcache";
 		}
+
 		if (msg.includes("requirements")) {
 			return "python-requirements";
 		}
+
 		if (error.errorType === "502" || error.errorType === "503") {
 			return `python-${error.errorType}`;
 		}
+
 		return "python-other";
 	}
+
 	return null;
 }
 

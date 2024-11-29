@@ -24,5 +24,6 @@ export async function removeCosmosDBConnection(
 	}
 
 	await node.deleteTreeItem(context);
+
 	await ext.rgApi.tree.refresh(context, node.parent);
 }

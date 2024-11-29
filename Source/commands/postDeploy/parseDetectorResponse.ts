@@ -44,6 +44,7 @@ export function getValuesByColumnName(
 
 	// keep track of how many values the detector is returning, but for now, we only use the first result
 	context.telemetry.properties.columnName = columnName;
+
 	context.telemetry.properties.numberOfValues = values.length.toString();
 
 	// the last one should be the most recent

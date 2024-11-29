@@ -31,31 +31,46 @@ import { type SiteTreeItem } from "./SiteTreeItem";
 
 export class CosmosDBTreeItem extends AzExtParentTreeItem {
 	public static contextValueInstalled: string = "сosmosDBConnections";
+
 	public static contextValueNotInstalled: string = "сosmosDBNotInstalled";
+
 	public readonly label: string = "Databases";
+
 	public readonly childTypeLabel: string = "Connection";
+
 	public readonly parent!: SiteTreeItem;
+
 	public readonly site: ParsedSite;
+
 	public cosmosDBExtension:
 		| vscode.Extension<apiUtils.AzureExtensionApiProvider | undefined>
 		| undefined;
+
 	public suppressMaskLabel = true;
 
 	private readonly _endpointSuffix: string = "_ENDPOINT";
+
 	private readonly _keySuffix: string = "_MASTER_KEY";
+
 	private readonly _databaseSuffix: string = "_DATABASE_ID";
 
 	private readonly _pgHostSuffix: string = "_DBHOST";
+
 	private readonly _pgDbNameSuffix: string = "_DBNAME";
+
 	private readonly _pgUserSuffix: string = "_DBUSER";
+
 	private readonly _pgPassSuffix: string = "_DBPASS";
+
 	private readonly _pgPortSuffix: string = "_DBPORT";
 
 	private _cosmosDBApi: AzureDatabasesExtensionApi | undefined;
 
 	constructor(parent: SiteTreeItem, site: ParsedSite) {
 		super(parent);
+
 		this.site = site;
+
 		this.cosmosDBExtension = vscode.extensions.getExtension(
 			"ms-azuretools.vscode-cosmosdb",
 		);
@@ -156,6 +171,7 @@ export class CosmosDBTreeItem extends AzExtParentTreeItem {
 		const client = await this.parent.site.createClient(context);
 
 		const appSettingsDict = await client.listApplicationSettings();
+
 		appSettingsDict.properties = appSettingsDict.properties || {};
 
 		let newAppSettings: Map<string, string>;
@@ -178,6 +194,7 @@ export class CosmosDBTreeItem extends AzExtParentTreeItem {
 				this._keySuffix,
 				this._databaseSuffix,
 			];
+
 			newAppSettings = await this.promptForAppSettings(
 				context,
 				appSettingsDict,
@@ -204,6 +221,7 @@ export class CosmosDBTreeItem extends AzExtParentTreeItem {
 				this._pgPassSuffix,
 				this._pgPortSuffix,
 			];
+
 			newAppSettings = await this.promptForAppSettings(
 				context,
 				appSettingsDict,
@@ -216,6 +234,7 @@ export class CosmosDBTreeItem extends AzExtParentTreeItem {
 				string | undefined,
 				string | undefined
 			> = new Map([[undefined, databaseToAdd.connectionString]]);
+
 			newAppSettings = await this.promptForAppSettings(
 				context,
 				appSettingsDict,
@@ -230,6 +249,7 @@ export class CosmosDBTreeItem extends AzExtParentTreeItem {
 		}
 
 		await client.updateApplicationSettings(appSettingsDict);
+
 		await this.parent.appSettingsNode.refresh(context);
 
 		const createdDatabase = new CosmosDBConnection(
@@ -237,6 +257,7 @@ export class CosmosDBTreeItem extends AzExtParentTreeItem {
 			databaseToAdd,
 			Array.from(newAppSettings.keys()),
 		);
+
 		context.showCreatingTreeItem(createdDatabase.label);
 
 		const revealDatabase: vscode.MessageItem = {
@@ -266,6 +287,7 @@ export class CosmosDBTreeItem extends AzExtParentTreeItem {
 		) {
 			buttons.push(manageFirewallRules);
 		}
+
 		void vscode.window
 			.showInformationMessage(message, ...buttons)
 			.then(async (result: vscode.MessageItem | undefined) => {
@@ -275,6 +297,7 @@ export class CosmosDBTreeItem extends AzExtParentTreeItem {
 					const accountId: string | undefined =
 						createdDatabase.cosmosExtensionItem.azureData
 							?.accountId;
+
 					await openInPortal(this, `${accountId}/connectionSecurity`);
 				}
 			});
@@ -328,6 +351,7 @@ export class CosmosDBTreeItem extends AzExtParentTreeItem {
 				});
 			}
 		}
+
 		return result;
 	}
 
@@ -364,6 +388,7 @@ export class CosmosDBTreeItem extends AzExtParentTreeItem {
 							keys.push(optionalKey);
 						}
 					}
+
 					result.push({
 						keys,
 						postgresData: {
@@ -379,6 +404,7 @@ export class CosmosDBTreeItem extends AzExtParentTreeItem {
 				}
 			}
 		}
+
 		return result;
 	}
 
@@ -420,6 +446,7 @@ export class CosmosDBTreeItem extends AzExtParentTreeItem {
 						Object.keys(appSettings).find((k) => k === databaseKey)
 					) {
 						keys.push(databaseKey);
+
 						connectionString += `Database=${appSettings[databaseKey]}`;
 					}
 
@@ -496,6 +523,7 @@ export class CosmosDBTreeItem extends AzExtParentTreeItem {
 				result.set(appSettingsPrefix, value);
 			}
 		}
+
 		return result;
 	}
 
@@ -517,18 +545,25 @@ export class CosmosDBTreeItem extends AzExtParentTreeItem {
 				undefined,
 			);
 		}
+
 		return validateAppSettingKey(appSettingsDict, client, prefix);
 	}
 }
 
 interface IDetectedConnection {
 	keys: string[];
+
 	connectionString?: string;
+
 	postgresData?: {
 		hostName: string;
+
 		port: string;
+
 		databaseName: string | undefined;
+
 		username: string | undefined;
+
 		password: string | undefined;
 	};
 }

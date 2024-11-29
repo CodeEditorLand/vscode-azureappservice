@@ -21,10 +21,15 @@ const label: string = localize("webJobs", "WebJobs");
 
 export class WebJobsTreeItem extends AzExtParentTreeItem {
 	public static contextValue: string = "webJobs";
+
 	public readonly label: string = label;
+
 	public readonly contextValue: string = WebJobsTreeItem.contextValue;
+
 	public readonly childTypeLabel: string = localize("webJob", "Web Job");
+
 	public suppressMaskLabel = true;
+
 	public parent!: SiteTreeItem;
 
 	constructor(parent: SiteTreeItem) {
@@ -61,8 +66,11 @@ export class WebJobsTreeItem extends AzExtParentTreeItem {
 
 export class WebJobsNATreeItem extends NotAvailableTreeItem {
 	public static contextValue: string = "webJobsNA";
+
 	public readonly label: string = label;
+
 	public readonly contextValue: string = WebJobsNATreeItem.contextValue;
+
 	public suppressMaskLabel = true;
 
 	public constructor(parent: AzExtParentTreeItem) {

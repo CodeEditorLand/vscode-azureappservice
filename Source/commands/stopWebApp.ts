@@ -31,12 +31,15 @@ export async function stopWebApp(
 		'"{0}" has been stopped. App Service plan charges still apply.',
 		node.site.fullName,
 	);
+
 	await node.runWithTemporaryDescription(
 		context,
 		localize("stopping", "Stopping..."),
 		async () => {
 			ext.outputChannel.appendLog(stoppingApp);
+
 			await client.stop();
+
 			ext.outputChannel.appendLog(stoppedApp);
 		},
 	);

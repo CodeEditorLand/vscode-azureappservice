@@ -25,6 +25,7 @@ export async function setPreDeployConfigForDotnet(
 
 	const targetFramework: string | undefined =
 		await tryGetTargetFramework(csprojFile);
+
 	context.telemetry.properties.tfw = targetFramework
 		? targetFramework
 		: "N/A";
@@ -43,6 +44,7 @@ export async function setPreDeployConfigForDotnet(
 	const addConfigButton: MessageItem = {
 		title: localize("addConfig", "Add Config"),
 	};
+
 	await context.ui.showWarningMessage(
 		notConfiguredForDeploy,
 		{ modal: true, stepName: "dotnetDeployConfig" },
@@ -68,6 +70,7 @@ export async function setPreDeployConfigForDotnet(
 		publishId,
 		workspaceFspath,
 	);
+
 	await updateWorkspaceSetting(
 		constants.configurationSettings.deploySubpath,
 		deploySubpath,
@@ -93,6 +96,7 @@ export async function setPreDeployConfigForDotnet(
 
 	// do not overwrite any dotnet tasks the user already defined
 	let newTasks: tasks.ITask[] = generateDotnetTasks(subfolder);
+
 	newTasks = newTasks.filter(
 		(t1) =>
 			!existingTasks.find((t2) => {

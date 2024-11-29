@@ -100,9 +100,11 @@ export async function deploy(
 				filter: constants.webAppFilter,
 			}),
 	);
+
 	client = await node.site.createClient(actionContext);
 
 	const correlationId: string = getRandomHexString();
+
 	context.telemetry.properties.correlationId = correlationId;
 
 	// if we already got siteConfig, don't waste time getting it again
@@ -177,6 +179,7 @@ export async function deploy(
 		context.workspaceFolder.uri.fsPath,
 		context.effectiveDeployFsPath,
 	);
+
 	await appservice.runPreDeployTask(
 		context,
 		context.originalDeployFsPath,
@@ -206,6 +209,7 @@ export async function deploy(
 			'WARNING: Ignoring deploySubPath "{0}" for non-zip deploy.',
 			getWorkspaceSetting(constants.configurationSettings.deploySubpath),
 		);
+
 		ext.outputChannel.appendLog(noSubpathWarning);
 	}
 
@@ -232,6 +236,7 @@ export async function deploy(
 				) {
 					actionContext.errorHandling.suppressDisplay = true;
 				}
+
 				throw error;
 			}
 		},
@@ -239,6 +244,7 @@ export async function deploy(
 
 	const tokenSource: vscode.CancellationTokenSource =
 		new vscode.CancellationTokenSource();
+
 	postDeployCancelTokens.set(node.id, tokenSource);
 
 	showDeployCompletedMessage(context, node);

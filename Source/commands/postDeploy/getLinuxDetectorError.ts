@@ -107,7 +107,9 @@ export async function getLinuxDetectorError(
 
 	if (appInsightTable) {
 		insightTable = appInsightTable;
+
 		context.telemetry.properties.insight = "app";
+
 		detectorTimestamp = getValuesByColumnName(
 			context,
 			appInsightTable,
@@ -125,7 +127,9 @@ export async function getLinuxDetectorError(
 		}
 
 		insightTable = dockerInsightTable;
+
 		context.telemetry.properties.insight = "docker";
+
 		detectorTimestamp = getValuesByColumnName(
 			context,
 			dockerInsightTable,
@@ -136,6 +140,7 @@ export async function getLinuxDetectorError(
 	// The format of the timestamp in the insight response is [1] 2020-04-21T18:23:50
 	// The bracket are prefixed because internally the table is a Dictionary<string,object> so if the key is non-unique, it will throw an error
 	const bracketsAndSpace: RegExp = /\[.*?\]\s/;
+
 	detectorTimestamp = dayjs
 		.utc(detectorTimestamp.replace(bracketsAndSpace, ""))
 		.format(detectorTimestampFormat);
@@ -156,6 +161,7 @@ export async function getLinuxDetectorError(
 			insightTable,
 			ColumnName.dataValue,
 		);
+
 		context.telemetry.properties.errorMessages =
 			JSON.stringify(insightError);
 
@@ -206,12 +212,16 @@ export type detectorDataset = {
 
 export type detectorTable = {
 	tableName: string;
+
 	columns: detectorColumn[];
+
 	rows: string[];
 };
 
 type detectorColumn = {
 	columnName: ColumnName;
+
 	dataType: string;
+
 	columnType: string;
 };

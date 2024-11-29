@@ -13,5 +13,6 @@ export async function deleteWebApp(
 	node?: SiteTreeItem,
 ): Promise<void> {
 	node ??= await pickWebApp({ ...context, suppressCreatePick: true });
+
 	await node.deleteTreeItem(context);
 }

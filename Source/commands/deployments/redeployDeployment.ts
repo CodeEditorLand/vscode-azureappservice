@@ -22,5 +22,6 @@ export async function redeployDeployment(
 			},
 		);
 	}
+
 	await node.redeployDeployment(context);
 }

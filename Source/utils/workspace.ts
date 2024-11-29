@@ -93,6 +93,7 @@ async function selectWorkspaceItem(
 			description: "",
 			data: undefined,
 		});
+
 		folder = await context.ui.showQuickPick(quickPicks, { placeHolder });
 	}
 

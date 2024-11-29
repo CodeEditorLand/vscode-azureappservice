@@ -21,5 +21,6 @@ export async function editAppSetting(
 			),
 		});
 	}
+
 	await node.edit(context);
 }

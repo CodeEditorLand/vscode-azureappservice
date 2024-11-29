@@ -14,6 +14,8 @@ export async function restartWebApp(
 	node?: SiteTreeItem,
 ): Promise<void> {
 	node ??= await pickWebApp(context);
+
 	await commands.executeCommand("appService.Stop", node);
+
 	await commands.executeCommand("appService.Start", node);
 }

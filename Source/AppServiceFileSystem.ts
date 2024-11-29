@@ -31,7 +31,9 @@ export type FileSystemItem = FileTreeItem & { id: string };
 
 export class AppServiceFileSystem extends AzExtTreeFileSystem<FileSystemItem> {
 	public static scheme: string = "azureAppService";
+
 	public scheme: string = AppServiceFileSystem.scheme;
+
 	private _etags: Map<string, string> = new Map<string, string>();
 
 	public getFilePath(node: FileSystemItem): string {
@@ -52,6 +54,7 @@ export class AppServiceFileSystem extends AzExtTreeFileSystem<FileSystemItem> {
 		node: FileSystemItem,
 	): Promise<Uint8Array> {
 		const result: ISiteFile = await getFile(context, node.site, node.url);
+
 		this._etags.set(node.fullId, result.etag);
 
 		return Buffer.from(result.data);
@@ -95,7 +98,9 @@ export class AppServiceFileSystem extends AzExtTreeFileSystem<FileSystemItem> {
 				localize("updating", 'Updating "{0}" ...', node.label),
 				{ resourceName: node.site.fullName },
 			);
+
 			await putFile(context, node.site, content, node.url, etag);
+
 			this.appendLineToOutput(
 				localize("done", 'Updated "{0}".', node.label),
 				{ resourceName: node.site.fullName },
@@ -115,11 +120,14 @@ export class AppServiceFileSystem extends AzExtTreeFileSystem<FileSystemItem> {
 					),
 				);
 			}
+
 			throw error;
 		}
 
 		etag = (await getFile(context, node.site, node.url)).etag;
+
 		this._etags.set(node.fullId, etag);
+
 		await node.refresh(context);
 	}
 

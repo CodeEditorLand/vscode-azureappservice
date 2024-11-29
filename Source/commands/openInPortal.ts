@@ -46,6 +46,7 @@ export async function openInPortal(
 	) {
 		// the deep link for "Deployments" do not follow the conventional pattern of including its parent in the path name so we need to pass the "Deployment Center" url directly
 		const id = `${nonNullProp(node, "parent").id}/vstscd`;
+
 		await uiOpenInPortal(node, id);
 
 		return;

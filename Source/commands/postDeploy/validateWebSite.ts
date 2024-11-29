@@ -22,6 +22,7 @@ import { delay } from "../../utils/delay";
 interface IValidateProperties {
 	statusCodes?: string; // [[code,elapsedSeconds], [code,elapsedSeconds]...]
 	canceled?: "true" | "false";
+
 	correlationId?: string;
 }
 
@@ -40,12 +41,15 @@ export async function validateWebSite(
 		"appService.validateWebSite",
 		async (context: IActionContext) => {
 			context.errorHandling.rethrow = false;
+
 			context.errorHandling.suppressDisplay = true;
+
 			context.valuesToMask.push(...originalContext.valuesToMask);
 
 			const properties = <IValidateProperties>(
 				context.telemetry.properties
 			);
+
 			properties.correlationId = deploymentCorrelationId;
 
 			let pollingIntervalMs = initialPollingIntervalMs;
@@ -76,6 +80,7 @@ export async function validateWebSite(
 						await client.sendRequest(
 							createPipelineRequest({ method: "GET", url }),
 						);
+
 					currentStatusCode = response.status;
 				} catch (error) {
 					currentStatusCode =
@@ -83,6 +88,7 @@ export async function validateWebSite(
 				}
 
 				const elapsedSeconds = Math.round((Date.now() - start) / 1000);
+
 				statusCodes.push({
 					code: currentStatusCode,
 					elapsed: elapsedSeconds,
@@ -93,6 +99,7 @@ export async function validateWebSite(
 				}
 
 				await delay(pollingIntervalMs);
+
 				pollingIntervalMs += pollingIncrementMs;
 			}
 

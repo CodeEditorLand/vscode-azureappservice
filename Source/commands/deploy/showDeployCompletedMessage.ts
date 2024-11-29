@@ -25,6 +25,7 @@ export function showDeployCompletedMessage(
 		'Deployment to "{0}" completed.',
 		node.site.fullName,
 	);
+
 	ext.outputChannel.appendLog(message);
 
 	const browseWebsiteBtn: MessageItem = {
@@ -53,7 +54,9 @@ export function showDeployCompletedMessage(
 				"postDeploy",
 				async (context: IActionContext) => {
 					context.valuesToMask.push(...originalContext.valuesToMask);
+
 					context.telemetry.properties.dialogResult = result?.title;
+
 					context.telemetry.eventVersion = 2;
 
 					if (result === AppServiceDialogResponses.viewOutput) {

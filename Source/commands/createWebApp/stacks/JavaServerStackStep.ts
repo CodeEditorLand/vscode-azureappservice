@@ -27,6 +27,7 @@ export class JavaServerStackStep extends AzureWizardPromptStep<IWebAppWizardCont
 
 		const javaVersion: string = nonNullProp(context, "newSiteStack")
 			.majorVersion.value;
+
 		context.newSiteJavaStack = (
 			await context.ui.showQuickPick(
 				getStackPicks(context, javaVersion),

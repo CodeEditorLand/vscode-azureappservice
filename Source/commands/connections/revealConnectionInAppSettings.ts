@@ -45,5 +45,6 @@ export async function revealConnectionInAppSettings(
 			),
 		);
 	}
+
 	await ext.rgApi.treeView.reveal(nodeToReveal);
 }

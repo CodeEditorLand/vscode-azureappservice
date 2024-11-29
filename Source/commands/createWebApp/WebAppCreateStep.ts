@@ -42,21 +42,27 @@ export class WebAppCreateStep extends AzureWizardExecuteStep<IWebAppWizardContex
 		progress: Progress<{ message?: string; increment?: number }>,
 	): Promise<void> {
 		context.telemetry.properties.newSiteOS = context.newSiteOS;
+
 		context.telemetry.properties.newSiteStack =
 			context.newSiteStack?.stack.value;
+
 		context.telemetry.properties.newSiteMajorVersion =
 			context.newSiteStack?.majorVersion.value;
+
 		context.telemetry.properties.newSiteMinorVersion =
 			context.newSiteStack?.minorVersion.value;
 
 		if (context.newSiteJavaStack) {
 			context.telemetry.properties.newSiteJavaStack =
 				context.newSiteJavaStack.stack.value;
+
 			context.telemetry.properties.newSiteJavaMajorVersion =
 				context.newSiteJavaStack.majorVersion.value;
+
 			context.telemetry.properties.newSiteJavaMinorVersion =
 				context.newSiteJavaStack.minorVersion.value;
 		}
+
 		context.telemetry.properties.planSkuTier =
 			context.plan && context.plan.sku && context.plan.sku.tier;
 
@@ -65,7 +71,9 @@ export class WebAppCreateStep extends AzureWizardExecuteStep<IWebAppWizardContex
 			'Creating new web app "{0}"...',
 			context.newSiteName,
 		);
+
 		ext.outputChannel.appendLog(message);
+
 		progress.report({ message });
 
 		const siteName: string = nonNullProp(context, "newSiteName");
@@ -77,11 +85,13 @@ export class WebAppCreateStep extends AzureWizardExecuteStep<IWebAppWizardContex
 
 		const client: WebSiteManagementClient =
 			await createWebSiteClient(context);
+
 		context.site = await client.webApps.beginCreateOrUpdateAndWait(
 			rgName,
 			siteName,
 			await this.getNewSite(context),
 		);
+
 		context.activityResult = context.site as AppResource;
 	}
 
@@ -120,9 +130,11 @@ export class WebAppCreateStep extends AzureWizardExecuteStep<IWebAppWizardContex
 		if (context.newSiteOS === "linux") {
 			kind += ",linux";
 		}
+
 		if (context.customLocation) {
 			kind += ",kubernetes";
 		}
+
 		return kind;
 	}
 
@@ -167,6 +179,7 @@ export class WebAppCreateStep extends AzureWizardExecuteStep<IWebAppWizardContex
 						// Filter out .NET _Core_ stacks because this is a .NET _Framework_ property
 						newSiteConfig.netFrameworkVersion = runtimeVersion;
 					}
+
 					break;
 
 				case "php":
@@ -176,6 +189,7 @@ export class WebAppCreateStep extends AzureWizardExecuteStep<IWebAppWizardContex
 
 				case "node":
 					newSiteConfig.nodeVersion = runtimeVersion;
+
 					newSiteConfig.appSettings.push({
 						name: "WEBSITE_NODE_DEFAULT_VERSION",
 						value: runtimeVersion,
@@ -196,8 +210,10 @@ export class WebAppCreateStep extends AzureWizardExecuteStep<IWebAppWizardContex
 							javaStack.minorVersion.stackSettings,
 							"windowsContainerSettings",
 						);
+
 					newSiteConfig.javaContainer =
 						windowsStackSettings.javaContainer;
+
 					newSiteConfig.javaContainerVersion =
 						windowsStackSettings.javaContainerVersion;
 
@@ -211,6 +227,7 @@ export class WebAppCreateStep extends AzureWizardExecuteStep<IWebAppWizardContex
 				default:
 			}
 		}
+
 		return newSiteConfig;
 	}
 
@@ -233,6 +250,7 @@ export class WebAppCreateStep extends AzureWizardExecuteStep<IWebAppWizardContex
 				value: trueString,
 			});
 		}
+
 		if (context.appInsightsComponent) {
 			appSettings.push({
 				name: "APPLICATIONINSIGHTS_CONNECTION_STRING",

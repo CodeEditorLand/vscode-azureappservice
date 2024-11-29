@@ -29,6 +29,7 @@ export async function setPreDeployTaskForMavenModule(
 	const addConfigButton: MessageItem = {
 		title: localize("addConfig", "Add Config"),
 	};
+
 	await context.ui.showWarningMessage(
 		notConfiguredForDeploy,
 		{ modal: true },
@@ -51,6 +52,7 @@ export async function setPreDeployTaskForMavenModule(
 		mavenPackageTaskName,
 		workspaceFspath,
 	);
+
 	await updateWorkspaceSetting(
 		constants.configurationSettings.deploySubpath,
 		deploySubpath,
@@ -84,7 +86,9 @@ export async function setPreDeployTaskForMavenModule(
 
 	if (!packageTask) {
 		packageTask = generateMavenPackageTask(relativeModulePath);
+
 		packageTask.label = mavenPackageTaskName;
+
 		await tasks.updateTasks(
 			context.workspaceFolder,
 			existingTasks.concat([packageTask]),

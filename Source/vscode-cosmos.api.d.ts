@@ -24,6 +24,7 @@ export interface AzureDatabasesExtensionApi {
 	pickTreeItem(
 		options: PickTreeItemOptions & { resourceType: "DatabaseAccount" },
 	): Promise<DatabaseAccountTreeItem | undefined>;
+
 	pickTreeItem(
 		options: PickTreeItemOptions & { resourceType: "Database" },
 	): Promise<DatabaseTreeItem | undefined>;
@@ -38,7 +39,9 @@ export interface AzureDatabasesTreeItem {
 
 export interface DatabaseAccountTreeItem extends AzureDatabasesTreeItem {
 	hostName: string;
+
 	port: string;
+
 	connectionString: string;
 
 	/**
@@ -46,6 +49,7 @@ export interface DatabaseAccountTreeItem extends AzureDatabasesTreeItem {
 	 */
 	azureData?: {
 		accountName: string;
+
 		accountId: string;
 	};
 
@@ -57,6 +61,7 @@ export interface DatabaseAccountTreeItem extends AzureDatabasesTreeItem {
 
 	postgresData?: {
 		username: string;
+
 		password: string;
 	};
 }
@@ -94,9 +99,13 @@ export interface TreeItemQuery {
 
 	postgresData?: {
 		hostName: string;
+
 		port: string;
+
 		databaseName: string | undefined;
+
 		username: string | undefined;
+
 		password: string | undefined;
 	};
 }

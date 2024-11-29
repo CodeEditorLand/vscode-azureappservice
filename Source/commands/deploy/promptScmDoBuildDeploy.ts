@@ -43,6 +43,7 @@ export async function promptScmDoBuildDeploy(
 
 	if (input === DialogResponses.yes) {
 		await enableScmDoBuildDuringDeploy(fsPath, runtime);
+
 		context.telemetry.properties.enableScmInput = "Yes";
 	} else {
 		await updateWorkspaceSetting(
@@ -50,6 +51,7 @@ export async function promptScmDoBuildDeploy(
 			false,
 			fsPath,
 		);
+
 		context.telemetry.properties.enableScmInput = "No";
 	}
 }
@@ -74,6 +76,7 @@ export async function enableScmDoBuildDuringDeploy(
 		oldSettings = [oldSettings];
 		// settings have to be an array to concat the proper zipIgnoreFolders
 	}
+
 	const newSettings: string[] = oldSettings;
 
 	for (const folder of zipIgnoreFolders) {
@@ -81,11 +84,13 @@ export async function enableScmDoBuildDuringDeploy(
 			newSettings.push(folder);
 		}
 	}
+
 	await updateWorkspaceSetting(
 		constants.configurationSettings.zipIgnorePattern,
 		newSettings,
 		fsPath,
 	);
+
 	await fse.writeFile(
 		path.join(fsPath, constants.deploymentFileName),
 		constants.deploymentFile,

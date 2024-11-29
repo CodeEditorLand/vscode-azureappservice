@@ -18,6 +18,7 @@ export async function showFile(
 	treeItem?: FileTreeItem,
 ): Promise<void> {
 	const node = nonNullValue(treeItem);
+
 	context.telemetry.eventVersion = 2;
 
 	ext.fileSystem.appendLineToOutput(
@@ -30,6 +31,7 @@ export async function showFile(
 	} else {
 		// ensure node.id is defined
 		node.id = node.fullId;
+
 		await ext.fileSystem.showTextDocument(node as FileSystemItem);
 	}
 }

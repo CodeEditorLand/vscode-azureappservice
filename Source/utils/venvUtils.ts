@@ -13,6 +13,7 @@ export namespace venvUtils {
 		const venvs: string[] = [];
 
 		const fsPaths: string[] = await fse.readdir(projectPath);
+
 		await Promise.all(
 			fsPaths.map(async (venvName: string) => {
 				if (await venvExists(venvName, projectPath)) {
@@ -50,6 +51,7 @@ export namespace venvUtils {
 				}
 			}
 		}
+
 		return false;
 	}
 

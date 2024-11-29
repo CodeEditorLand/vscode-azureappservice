@@ -23,6 +23,7 @@ export async function createSlot(
 			"noWebAppForSlot",
 			"The selected web app does not support slots. View supported plans [here](https://aka.ms/AA7aoe4).",
 		);
+
 		node = await ext.rgApi.pickAppResource<DeploymentSlotsTreeItem>(
 			{ ...context, noItemFoundErrorMessage },
 			{
@@ -37,6 +38,7 @@ export async function createSlot(
 	const createdSlot: SiteTreeItem = <SiteTreeItem>(
 		await node.createChild(context)
 	);
+
 	showCreatedWebAppMessage(context, createdSlot);
 
 	const client = await node.parent.site.createClient(context);

@@ -80,6 +80,7 @@ function readAzConfigListing(
 			for (const propertyToRead of propertiesToRead) {
 				if (configItem.name === propertyToRead) {
 					config[propertyToRead] = configItem.value;
+
 					wizardContext.telemetry.properties[
 						`hasAz${propertyToRead}Default`
 					] = "true";
@@ -100,6 +101,8 @@ export type AzConfig = {
 
 interface IAzConfigItem {
 	name: string;
+
 	source: string;
+
 	value: string;
 }
