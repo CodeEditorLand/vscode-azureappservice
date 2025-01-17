@@ -717,13 +717,13 @@
 	"dependencies": {
 		"dotenv": "16.4.7",
 		"fast-xml-parser": "4.5.1",
-		"fs-extra": "11.2.0",
+		"fs-extra": "11.3.0",
 		"open": "10.1.0"
 	},
 	"devDependencies": {
 		"@types/dotenv": "8.2.3",
 		"@types/fs-extra": "11.0.4",
-		"@types/node": "22.10.6",
+		"@types/node": "22.10.7",
 		"glob": "11.0.1"
 	},
 	"extensionDependencies": [
