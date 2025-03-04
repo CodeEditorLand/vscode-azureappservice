@@ -716,14 +716,14 @@
 	],
 	"dependencies": {
 		"dotenv": "16.4.7",
-		"fast-xml-parser": "4.5.1",
+		"fast-xml-parser": "5.0.8",
 		"fs-extra": "11.3.0",
 		"open": "10.1.0"
 	},
 	"devDependencies": {
 		"@types/dotenv": "8.2.3",
 		"@types/fs-extra": "11.0.4",
-		"@types/node": "22.13.4",
+		"@types/node": "22.13.9",
 		"glob": "11.0.1"
 	},
 	"extensionDependencies": [
